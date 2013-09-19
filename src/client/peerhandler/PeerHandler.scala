@@ -8,7 +8,7 @@ import scala.collection.mutable
 import java.net.InetAddress
 import scala.concurrent.Lock
 import java.util.{TimeZone, Calendar, Date}
-import peerhandler.PeerHandler.PeerSetRequest
+import peerhandler.PeerHandler.{SubscriptionRequest, PeerSetRequest}
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,6 +19,7 @@ import peerhandler.PeerHandler.PeerSetRequest
  */
 class PeerHandler(private var _peerSet: Set[Peer]) extends Actor {
   private val _core = new PeerHandlerCore
+  private val subscribers = mutable.Set[Actor]()
 
   override def act {
     _core.start
@@ -26,7 +27,13 @@ class PeerHandler(private var _peerSet: Set[Peer]) extends Actor {
     while(true) {
       receive {
         case PeerSetRequest => reply(_peerSet)
-        case newPeerSet: Set[Peer] => _peerSet = newPeerSet
+        case newPeerSet: Set[Peer] => {
+          _peerSet = newPeerSet
+          for(subscriber <- subscribers) {
+            subscriber ! _peerSet
+          }
+        }
+        case SubscriptionRequest(subscriber) => subscribers.add(subscriber)
         case _ =>
       }
     }
@@ -99,5 +106,6 @@ class PeerHandler(private var _peerSet: Set[Peer]) extends Actor {
 }
 
 object PeerHandler {
-  object PeerSetRequest
+  case object PeerSetRequest
+  case class SubscriptionRequest(val actor: Actor)
 }

@@ -4,6 +4,7 @@ import java.net.{HttpURLConnection, URL, InetAddress}
 import peer.Peer
 import scala.io.BufferedSource
 import com.google.gson.Gson
+import fileindex.FileIndex
 
 /**
  * Created with IntelliJ IDEA.
@@ -29,8 +30,15 @@ package object getutilities {
 
   def getPeerList(address: InetAddress): Option[Set[Peer]] = try {
     val reader = get(address, "/peerlist")
-    Option((new Gson).fromJson(reader.mkString, classOf[Array[Peer]]).toSet[Peer])
+    Option(Peer.gson.fromJson(reader.mkString, classOf[Array[Peer]]).toSet[Peer])
   } catch {
     case _ => Option.empty[Set[Peer]]
+  }
+
+  def getFileIndex(address: InetAddress): Option[FileIndex] = try {
+    val reader = get(address, "/fileindex")
+    Option(FileIndex.gson.fromJson(reader.mkString, classOf[FileIndex]))
+  } catch {
+    case _ => Option.empty
   }
 }

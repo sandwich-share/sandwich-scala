@@ -38,8 +38,6 @@ class DirectoryWatcher(val rootDirectory: Path) extends Actor {
   private class DirectoryWatcherCore extends Actor {
     private val watcher = FileSystems.getDefault.newWatchService
     private val fileWatcherMap = new HashMap[WatchKey, Path]
-    private val fileIndexLock: Lock = new Lock
-    private var _fileIndex: FileIndex = new FileIndex(Set[FileItem]())
     registerAll(rootDirectory)
     updateFileIndex
 
@@ -60,17 +58,8 @@ class DirectoryWatcher(val rootDirectory: Path) extends Actor {
     }
 
     private def updateFileIndex {
-      fileIndexLock.acquire
       // TODO: The checksum in fileItem is set to zero to match the canonical version; nevertheless, we should fix this.
-      _fileIndex = new FileIndex((for {(key, path) <- fileWatcherMap} yield FileItem(path.toString, path.toFile.length, 0)).toSet)
-      fileIndexLock.release
-    }
-
-    def fileIndex = {
-      fileIndexLock.acquire
-      val fileIndexCopy = _fileIndex
-      fileIndexLock.release
-      fileIndexCopy
+      DirectoryWatcher.this ! new FileIndex((for {(key, path) <- fileWatcherMap} yield FileItem(path.toString, path.toFile.length, 0)).toSet)
     }
 
     override def act {
