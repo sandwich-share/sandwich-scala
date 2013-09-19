@@ -10,6 +10,8 @@ import filewatcher.DirectoryWatcher
 import java.nio.file.{Files, Path}
 import peer.Peer
 import java.util.Date
+import fileindex.FileIndex
+import scala.io.Source
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,28 +30,49 @@ class Server(private val peerHandler: PeerHandler, private val fileWatcher: Dire
     server.start
   }
 
+  private def addPeer(exchange: HttpExchange) {
+    peerHandler.core ! exchange.getRemoteAddress.getAddress
+  }
+
   private class PingHandler extends HttpHandler {
     override def handle(exchange: HttpExchange) {
+      addPeer(exchange)
+      Source.fromInputStream(exchange.getRequestBody).mkString
+      exchange.getRequestBody.close
+      exchange.sendResponseHeaders(200, 0)
       val responseBody = new OutputStreamWriter(exchange.getResponseBody)
-      responseBody.write("pong")
+      responseBody.write("pong\n")
       responseBody.close
+      exchange.close
     }
   }
 
   private class PeerListHandler extends HttpHandler {
     override def handle(exchange: HttpExchange) {
+      addPeer(exchange)
+      Source.fromInputStream(exchange.getRequestBody).mkString
+      exchange.getRequestBody.close
+      exchange.sendResponseHeaders(200, 0)
       val responseBody = new OutputStreamWriter(exchange.getResponseBody)
-      val peerList = peerHandler.peerSet + Peer(Utils.localIp, fileWatcher.fileIndex.fileHash, new Date)
-      responseBody.write(Json.build(peerList).toString)
+      val fileHash = (fileWatcher !? DirectoryWatcher.FileHashRequest).asInstanceOf[Int]
+      val peerSet = (peerHandler !? PeerHandler.PeerSetRequest).asInstanceOf[Set[Peer]] + Peer(Utils.localIp, fileHash, new Date)
+      responseBody.write(Peer.gson.toJson(peerSet.toArray[Peer]))
       responseBody.close
+      exchange.close
     }
   }
 
   private class FileIndexHandler extends HttpHandler {
     override def handle(exchange: HttpExchange) {
+      addPeer(exchange)
+      Source.fromInputStream(exchange.getRequestBody).mkString
+      exchange.getRequestBody.close
+      exchange.sendResponseHeaders(200, 0)
       val responseBody = new OutputStreamWriter(exchange.getResponseBody)
-      responseBody.write(Json.build(fileWatcher.fileIndex).toString)
+      val fileIndex = (fileWatcher !? DirectoryWatcher.FileIndexRequest).asInstanceOf[FileIndex]
+      responseBody.write(FileIndex.gson.toJson(fileIndex))
       responseBody.close
+      exchange.close
     }
   }
 
@@ -59,13 +82,18 @@ class Server(private val peerHandler: PeerHandler, private val fileWatcher: Dire
       root.resolve(path)
     }
     override def handle(exchange: HttpExchange) {
+      addPeer(exchange)
+      Source.fromInputStream(exchange.getRequestBody).mkString
+      exchange.getRequestBody.close
+      exchange.sendResponseHeaders(200, 0)
       val file = getFile(exchange.getRequestURI)
       val responseBody = exchange.getResponseBody
       val bodyWriter = new ByteArrayOutputStream()
       // TODO: We should not read an entire file into memory.
       bodyWriter.write(Files.readAllBytes(file))
       bodyWriter.writeTo(responseBody)
-      responseBody.close
+      bodyWriter.close
+      exchange.close
     }
   }
 }

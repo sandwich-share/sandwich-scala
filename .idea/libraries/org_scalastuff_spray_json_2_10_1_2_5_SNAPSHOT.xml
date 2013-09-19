@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="org.scalastuff:spray-json_2.10:1.2.5-SNAPSHOT" type="repository">
+    <properties maven-id="org.scalastuff:spray-json_2.10:1.2.5-SNAPSHOT" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/spray-json_2.10-1.2.5-SNAPSHOT.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/scala-library-2.10.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/parboiled-scala_2.10-1.1.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/parboiled-core-1.1.5.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/spray-json_2.10-1.2.5-SNAPSHOT-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

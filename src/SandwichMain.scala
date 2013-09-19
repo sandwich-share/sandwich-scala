@@ -1,6 +1,7 @@
 import filewatcher.DirectoryWatcher
 import java.nio.file.{Paths, Files}
 import peerhandler.PeerHandler
+import scala.actors.Actor
 import utils.{Settings, Utils}
 import server.Server
 
@@ -18,8 +19,11 @@ object SandwichMain {
     val peerHandler = new PeerHandler(peerSet)
     val fileWatcher = new DirectoryWatcher(Paths.get(settings.sandwichPath))
     val server = new Server(peerHandler, fileWatcher)
-    fileWatcher.act
-    peerHandler.act
+    fileWatcher.start
+    peerHandler.start
     server.startServer
+    // Here we want to block and hand over control to other actors.
+    // TODO: Block more intelligently.
+    Actor.receive({case _ => System.exit(0)})
   }
 }

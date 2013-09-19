@@ -1,7 +1,10 @@
 package utils
 
-import java.io.File
-import java.nio.file.Files
+import java.io.{FileReader, FileWriter, StringWriter, File}
+import java.nio.file.{Paths, Files}
+import com.google.gson.Gson
+import java.nio.charset.Charset
+import java.nio.ByteBuffer
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,13 +14,13 @@ import java.nio.file.Files
  * To change this template use File | Settings | File Templates.
  */
 class Settings {
-  var sandwichPath = "~/sandwich"
+  var sandwichPath = "/home/brendan/sandwich"
 }
 
 object NullSettings extends Settings
 
 object Settings {
-  val settingsPath = Utils.configPath + File.pathSeparator + "settings.xml"
+  val settingsPath = Utils.configPath + File.separator + "settings.json"
 
   private var _settings: Settings = NullSettings
 
@@ -38,9 +41,29 @@ object Settings {
       }
       _settings = new Settings
     }
-    _settings = readSettings
+    _settings = readSettings match {
+      case Some(settings) => settings
+      case None => new Settings
+    }
     return _settings
   }
 
-  def readSettings = new Settings
+  def readSettings: Option[Settings] = {
+    try {
+      val encoded = Files.readAllBytes(Paths.get(settingsPath))
+      val encoding = Charset.defaultCharset()
+      (new Gson).fromJson(encoding.decode(ByteBuffer.wrap(encoded)).toString, classOf[Settings]) match {
+        case settings: Settings => Option(settings)
+        case _ => Option.empty
+      }
+    } catch {
+      case _ => Option.empty
+    }
+  }
+
+  def writeSettings(settings: Settings) {
+    val writer = new FileWriter(Settings.settingsPath)
+    writer.write((new Gson).toJson(settings, classOf[Settings]))
+    writer.close
+  }
 }

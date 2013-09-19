@@ -6,7 +6,9 @@ import scala.collection.immutable
 import com.twitter.json.{Json, JsonSerializable}
 import java.util.Date
 import java.text.SimpleDateFormat
-import utils.Utils
+import utils.{DateDeserializer, DateSerializer, Utils}
+import com.google.gson._
+import java.lang.reflect.Type
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,15 +17,14 @@ import utils.Utils
  * Time: 4:50 AM
  * To change this template use File | Settings | File Templates.
  */
-case class FileItem(var fileName: String, var size: Long, var checksum: Int) extends JsonSerializable {
-  def toJson(): String = Json.build(Map("FileName" -> fileName, "Size" -> size, "Checksum" -> checksum)).toString
-}
+case class FileItem(var fileName: String, var size: Long, var checksum: Int)
 
 object FileItem {
-  def apply(map: Map[String, String]) = FileItem(map("FileName"), map("Size").toLong, map("Checksum").toInt)
+  def gsonBuilder: GsonBuilder = new GsonBuilder
+  def gson: Gson = gsonBuilder.create()
 }
 
-class FileIndex(val fileList: Set[FileItem]) extends  JsonSerializable {
+class FileIndex(val fileList: Set[FileItem]) {
   private val crc = new CRC32
   for(FileItem(name, size, checksum) <- fileList) {
     crc.update((for {letter <- name} yield letter.toByte).toArray)
@@ -39,13 +40,23 @@ class FileIndex(val fileList: Set[FileItem]) extends  JsonSerializable {
 
   def fileHash = _fileHash
   def timeStamp = _timeStamp
+}
 
-  override def toJson(): String = Json.build(Map("IndexHash" -> fileHash.toString,
-    "TimeStamp" -> timeStamp.toString, "List" -> Json.build(fileList.toList).toString)).toString
-
-  def this(map: Map[String, Any]) {
-    this(map("List").asInstanceOf[List[Map[String, String]]].map(map => FileItem(map)).toSet)
-    _fileHash = map("IndexHash").asInstanceOf[String].toInt
-    _timeStamp = Utils.dateParser.parse(map("TimeStamp").asInstanceOf[String])
+object FileIndex {
+  def gson: Gson = {
+    val gson = FileItem.gsonBuilder
+    gson.registerTypeAdapter(classOf[Date], new DateSerializer)
+    gson.registerTypeAdapter(classOf[Date], new DateDeserializer)
+    gson.registerTypeAdapter(classOf[Set[FileItem]], new FileItemSetSerializer)
+    gson.registerTypeAdapter(classOf[Set[FileItem]], new FileItemSetDeserializer)
+    gson.create()
   }
+}
+
+class FileItemSetSerializer extends JsonSerializer[Set[FileItem]]{
+  def serialize(p1: Set[FileItem], p2: Type, p3: JsonSerializationContext): JsonElement = FileItem.gson.toJsonTree(p1.toSet[FileItem], classOf[Array[FileItem]])
+}
+
+class FileItemSetDeserializer extends JsonDeserializer[Set[FileItem]]{
+  def deserialize(p1: JsonElement, p2: Type, p3: JsonDeserializationContext): Set[FileItem] = FileItem.gson.fromJson(p1, classOf[Array[FileItem]]).toSet[FileItem]
 }

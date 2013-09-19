@@ -3,7 +3,10 @@ package peer
 import java.net.InetAddress
 import com.twitter.json.{Json, JsonSerializable}
 import java.util.Date
-import utils.Utils
+import com.google.gson._
+import java.lang.reflect.Type
+import peer.Peer
+import utils.{DateDeserializer, DateSerializer, Utils}
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,15 +15,20 @@ import utils.Utils
  * Time: 4:31 AM
  * To change this template use File | Settings | File Templates.
  */
-case class Peer(var ipAddress: InetAddress, var fileHash: Int, var lastSeen: Date) extends JsonSerializable {
-  override def toJson(): String = Json.build(Map("IP" -> ipAddress.toString, "IndexHash" -> fileHash.toString, "LastSeen" -> lastSeen.toString)).toString
+case class Peer(var IP: InetAddress, var IndexHash: Int, var LastSeen: Date) {
+
   override def equals(value: Any) = if(value.isInstanceOf[Peer]) {
-    value.asInstanceOf[Peer].ipAddress == ipAddress
+    value.asInstanceOf[Peer].IP == IP
   } else {
     false
   }
 }
 
 object Peer {
-  def apply(map: Map[String, String]) = Peer(InetAddress.getByName(map("IP")), map("IndexHash").toInt, Utils.dateParser.parse(map("LastSeen")))
+  def gson: Gson = {
+    val gson = new GsonBuilder
+    gson.registerTypeAdapter(classOf[Date], new DateSerializer)
+    gson.registerTypeAdapter(classOf[Date], new DateDeserializer)
+    gson.create()
+  }
 }

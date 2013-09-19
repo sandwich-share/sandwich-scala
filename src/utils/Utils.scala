@@ -4,8 +4,10 @@ import java.net.InetAddress
 import peer.Peer
 import java.io.File
 import scala.io.Source
-import com.twitter.json.Json
 import java.text.SimpleDateFormat
+import com.google.gson._
+import java.util.Date
+import java.lang.reflect.Type
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,13 +19,21 @@ import java.text.SimpleDateFormat
 object Utils {
   val configPath = "config"
   val localIp = InetAddress.getLocalHost
-  val dateParser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSZ")
+  val dateParser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSXXX")
 
   def portHash(ipAddress: InetAddress): Int = 9001
 
   def getCachedPeerIndex: Set[Peer] = {
-    val peerIndexPath = configPath + File.pathSeparator + "PeerIndexCache.json"
+    val peerIndexPath = configPath + File.separator + "PeerIndexCache.json"
     val file = Source.fromFile(peerIndexPath)
-    (for {map <- Json.parse(file.mkString).asInstanceOf[List[Map[String, String]]]} yield Peer(map)).toSet
+    (Peer.gson).fromJson(file.mkString, classOf[Array[Peer]]).toSet[Peer]
   }
+}
+
+class DateSerializer extends JsonSerializer[Date] {
+  override def serialize(p1: Date, p2: Type, p3: JsonSerializationContext): JsonElement = new JsonPrimitive(p1.toString)
+}
+
+class DateDeserializer extends JsonDeserializer[Date] {
+  override def deserialize(p1: JsonElement, p2: Type, p3: JsonDeserializationContext): Date = Utils.dateParser.parse(p1.getAsJsonPrimitive.getAsString)
 }
