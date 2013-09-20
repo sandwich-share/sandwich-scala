@@ -1,12 +1,9 @@
-package peer
+package sandwich.client.peer
 
 import java.net.InetAddress
-import com.twitter.json.{Json, JsonSerializable}
 import java.util.Date
 import com.google.gson._
-import java.lang.reflect.Type
-import peer.Peer
-import utils.{DateDeserializer, DateSerializer, Utils}
+import sandwich.utils.{DateDeserializer, DateSerializer}
 
 /**
  * Created with IntelliJ IDEA.

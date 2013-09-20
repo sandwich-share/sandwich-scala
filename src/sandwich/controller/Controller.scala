@@ -1,14 +1,15 @@
 package sandwich.controller
 
-import peerhandler.PeerHandler
-import utils.{Settings, Utils}
-import filewatcher.DirectoryWatcher
+import sandwich.client.peerhandler.PeerHandler
+import sandwich.utils.{Settings, Utils}
+import sandwich.client.filewatcher.DirectoryWatcher
 import java.nio.file.Paths
-import filemanifesthandler.FileManifestHandler
-import server.Server
+import sandwich.client.filemanifesthandler.FileManifestHandler
+import sandwich.server.Server
 import scala.actors.Actor
-import controller.Controller.ShutdownRequest
-import peer.Peer
+import sandwich.controller.Controller.ShutdownRequest
+import sandwich.client.peer.Peer
+import sandwich.controller
 
 /**
  * Created with IntelliJ IDEA.

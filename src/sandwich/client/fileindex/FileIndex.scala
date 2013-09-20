@@ -1,12 +1,8 @@
-package fileindex
+package sandwich.client.fileindex
 
-import java.sql.Time
 import java.util.zip.CRC32
-import scala.collection.immutable
-import com.twitter.json.{Json, JsonSerializable}
 import java.util.Date
-import java.text.SimpleDateFormat
-import utils.{DateDeserializer, DateSerializer, Utils}
+import sandwich.utils.{DateDeserializer, DateSerializer}
 import com.google.gson._
 import java.lang.reflect.Type
 

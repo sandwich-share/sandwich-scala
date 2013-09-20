@@ -6,9 +6,10 @@ import java.nio.file.LinkOption._
 import scala.collection.mutable.HashMap
 import java.nio.file.attribute.BasicFileAttributes
 import scala.actors.Actor
-import fileindex.{FileItem, FileIndex}
+import sandwich.client.fileindex.{FileItem, FileIndex}
 import scala.collection.convert.Wrappers.JListWrapper
 import sandwich.client.filewatcher.DirectoryWatcher.{FileHashRequest, FileIndexRequest}
+import sandwich.controller
 
 /**
  * Created with IntelliJ IDEA.

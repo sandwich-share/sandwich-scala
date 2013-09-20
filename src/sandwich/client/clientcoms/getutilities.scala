@@ -1,10 +1,9 @@
-package clientcoms
+package sandwich.client.clientcoms
 
 import java.net.{HttpURLConnection, URL, InetAddress}
-import peer.Peer
+import sandwich.client.peer.Peer
 import scala.io.BufferedSource
-import com.google.gson.Gson
-import fileindex.FileIndex
+import sandwich.client.fileindex.FileIndex
 
 /**
  * Created with IntelliJ IDEA.

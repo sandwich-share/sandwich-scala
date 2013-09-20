@@ -1,14 +1,13 @@
-package peerhandler
+package sandwich.client.peerhandler
 
 import scala.actors.{TIMEOUT, Actor}
-import scala.actors.Actor._
-import peer.Peer
-import clientcoms.getutilities._
+import sandwich.client.clientcoms.getutilities._
+import sandwich.client.peer.Peer
+import sandwich.controller
 import scala.collection.mutable
 import java.net.InetAddress
-import scala.concurrent.Lock
-import java.util.{TimeZone, Calendar, Date}
-import peerhandler.PeerHandler.{UnSubscriptionRequest, SubscriptionRequest, PeerSetRequest}
+import java.util.{Calendar, Date}
+import sandwich.client.peerhandler.PeerHandler.{UnSubscriptionRequest, SubscriptionRequest, PeerSetRequest}
 
 /**
  * Created with IntelliJ IDEA.

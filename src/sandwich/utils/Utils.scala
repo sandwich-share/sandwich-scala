@@ -1,7 +1,7 @@
-package utils
+package sandwich.utils
 
 import java.net.InetAddress
-import peer.Peer
+import sandwich.client.peer.Peer
 import java.io.{FileWriter, File}
 import scala.io.Source
 import java.text.SimpleDateFormat

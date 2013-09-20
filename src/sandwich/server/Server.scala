@@ -1,16 +1,15 @@
-package server
+package sandwich.server
 
 import java.net.{URI, InetSocketAddress}
-import utils.Utils
+import sandwich.utils.Utils
 import com.sun.net.httpserver.{HttpExchange, HttpHandler, HttpServer}
 import java.io._
-import peerhandler.PeerHandler
-import com.twitter.json.Json
-import filewatcher.DirectoryWatcher
+import sandwich.client.peerhandler.PeerHandler
+import sandwich.client.filewatcher.DirectoryWatcher
 import java.nio.file.{Files, Path}
-import peer.Peer
+import sandwich.client.peer.Peer
 import java.util.Date
-import fileindex.FileIndex
+import sandwich.client.fileindex.FileIndex
 import scala.io.Source
 
 /**

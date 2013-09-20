@@ -1,13 +1,13 @@
-package filemanifesthandler
+package sandwich.client.filemanifesthandler
 
 import scala.actors.Actor
-import peer.Peer
-import fileindex.FileIndex
+import sandwich.client.peer.Peer
+import sandwich.client.fileindex.FileIndex
 import scala.collection.mutable.Map
-import clientcoms.getutilities._
-import filemanifesthandler.FileManifestHandler.{WakeRequest, SleepRequest, FileManifestRequest}
-import controller.Request
-import peerhandler.PeerHandler
+import sandwich.client.clientcoms.getutilities._
+import sandwich.client.filemanifesthandler.FileManifestHandler.{WakeRequest, SleepRequest, FileManifestRequest}
+import sandwich.controller
+import sandwich.client.peerhandler.PeerHandler
 
 /**
  * Created with IntelliJ IDEA.

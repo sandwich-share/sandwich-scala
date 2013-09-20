@@ -1,8 +1,8 @@
-package filemanifesthandler
+package sandwich.client.filemanifesthandler
 
 import scala.collection.{immutable, mutable}
-import fileindex.{FileItem, FileIndex}
-import peer.Peer
+import sandwich.client.fileindex.{FileItem, FileIndex}
+import sandwich.client.peer.Peer
 
 /**
  * Created with IntelliJ IDEA.

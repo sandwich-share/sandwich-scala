@@ -1,10 +1,11 @@
-package utils
+package sandwich.utils
 
 import java.io.{FileReader, FileWriter, StringWriter, File}
 import java.nio.file.{Paths, Files}
 import com.google.gson.Gson
 import java.nio.charset.Charset
 import java.nio.ByteBuffer
+import sandwich.utils.Utils
 
 /**
  * Created with IntelliJ IDEA.
