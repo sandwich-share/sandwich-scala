@@ -17,7 +17,7 @@ import java.lang.reflect.Type
  * Time: 4:50 AM
  * To change this template use File | Settings | File Templates.
  */
-case class FileItem(var fileName: String, var size: Long, var checksum: Int)
+case class FileItem(var FileName: String, var Size: Long, var CheckSum: Int)
 
 object FileItem {
   def gsonBuilder: GsonBuilder = new GsonBuilder
@@ -25,21 +25,21 @@ object FileItem {
 }
 
 class FileIndex(val fileList: Set[FileItem]) {
-  private val crc = new CRC32
-  for(FileItem(name, size, checksum) <- fileList) {
-    crc.update((for {letter <- name} yield letter.toByte).toArray)
-    for(i <- List.range(0, 7)) {
-      crc.update((size >> i * 8).toByte)
+  lazy val fileHash: Int = {
+    val crc = new CRC32
+    for(FileItem(name, size, checksum) <- fileList) {
+      crc.update((for {letter <- name} yield letter.toByte).toArray)
+      for(i <- List.range(0, 7)) {
+        crc.update((size >> i * 8).toByte)
+      }
+      for(i <- List.range(0, 3)) {
+        crc.update(checksum >> i * 8)
+      }
     }
-    for(i <- List.range(0, 3)) {
-      crc.update(checksum >> i * 8)
-    }
+    crc.getValue.toInt
   }
-  private var _fileHash = crc.getValue.toInt
-  private var _timeStamp = new Date
 
-  def fileHash = _fileHash
-  def timeStamp = _timeStamp
+  val timeStamp = new Date
 }
 
 object FileIndex {

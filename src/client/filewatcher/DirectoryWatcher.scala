@@ -91,6 +91,7 @@ class DirectoryWatcher(val rootDirectory: Path) extends Actor {
 }
 
 object DirectoryWatcher {
-  object FileIndexRequest
-  object FileHashRequest
+  abstract class Request extends controller.Request
+  object FileIndexRequest extends DirectoryWatcher.Request
+  object FileHashRequest extends DirectoryWatcher.Request
 }

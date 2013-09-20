@@ -5,7 +5,9 @@ import peer.Peer
 import fileindex.FileIndex
 import scala.collection.mutable.Map
 import clientcoms.getutilities._
-import filemanifesthandler.FileManifestHandler.FileManifestRequest
+import filemanifesthandler.FileManifestHandler.{WakeRequest, SleepRequest, FileManifestRequest}
+import controller.Request
+import peerhandler.PeerHandler
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,14 +16,18 @@ import filemanifesthandler.FileManifestHandler.FileManifestRequest
  * Time: 10:51 AM
  * To change this template use File | Settings | File Templates.
  */
-class FileManifestHandler extends Actor {
+class FileManifestHandler(private val peerHandler: PeerHandler) extends Actor {
+  private val core = new FileManifestHandlerCore
   private var fileManifest = new FileManifest(Map[Peer, FileIndex]())
 
   override def act {
+    peerHandler ! PeerHandler.SubscriptionRequest(core)
     while(true) {
       receive {
         case newManifest: FileManifest => fileManifest = newManifest
         case FileManifestRequest => reply(fileManifest)
+        case SleepRequest => peerHandler ! PeerHandler.UnSubscriptionRequest(core)
+        case WakeRequest => peerHandler ! PeerHandler.SubscriptionRequest(core)
         case _ =>
       }
     }
@@ -67,5 +73,8 @@ class FileManifestHandler extends Actor {
 }
 
 object FileManifestHandler {
-  object FileManifestRequest
+  abstract class Request extends controller.Request
+  case object FileManifestRequest extends FileManifestHandler.Request
+  case object SleepRequest extends FileManifestHandler.Request
+  case object WakeRequest extends FileManifestHandler.Request
 }

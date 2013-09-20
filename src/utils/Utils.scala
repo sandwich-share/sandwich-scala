@@ -2,7 +2,7 @@ package utils
 
 import java.net.InetAddress
 import peer.Peer
-import java.io.File
+import java.io.{FileWriter, File}
 import scala.io.Source
 import java.text.SimpleDateFormat
 import com.google.gson._
@@ -18,15 +18,20 @@ import java.lang.reflect.Type
  */
 object Utils {
   val configPath = "config"
+  val peerIndexPath = configPath + File.separator + "PeerIndexCache.json"
   val localIp = InetAddress.getLocalHost
   val dateParser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSXXX")
 
   def portHash(ipAddress: InetAddress): Int = 9001
 
   def getCachedPeerIndex: Set[Peer] = {
-    val peerIndexPath = configPath + File.separator + "PeerIndexCache.json"
     val file = Source.fromFile(peerIndexPath)
-    (Peer.gson).fromJson(file.mkString, classOf[Array[Peer]]).toSet[Peer]
+    Peer.gson.fromJson(file.mkString, classOf[Array[Peer]]).toSet[Peer]
+  }
+
+  def cachePeerIndex(peerSet: Set[Peer]) {
+    val file = new FileWriter(peerIndexPath)
+    file.write(Peer.gson.toJson(peerSet))
   }
 }
 

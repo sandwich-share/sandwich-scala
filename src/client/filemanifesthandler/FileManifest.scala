@@ -19,5 +19,5 @@ class FileManifest(manifestMap: mutable.Map[Peer, FileIndex]) {
     }.fold(Map[FileItem, Peer]())((left, right) => left ++ right)
   }
 
-  def search(filter: String => Boolean): Set[FileItem] = filePeerMap.filter{ case(item, _) => filter(item.fileName) }.values.toSet[FileItem]
+  def search(filter: String => Boolean): Set[FileItem] = filePeerMap.filter{ case(item, _) => filter(item.FileName) }.values.toSet[FileItem]
 }

@@ -1,9 +1,4 @@
-import filewatcher.DirectoryWatcher
-import java.nio.file.{Paths, Files}
-import peerhandler.PeerHandler
-import scala.actors.Actor
-import utils.{Settings, Utils}
-import server.Server
+import controller.Controller
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,16 +9,6 @@ import server.Server
  */
 object SandwichMain {
   def main(args: Array[String]) {
-    val settings = Settings.getSettings
-    val peerSet = Utils.getCachedPeerIndex
-    val peerHandler = new PeerHandler(peerSet)
-    val fileWatcher = new DirectoryWatcher(Paths.get(settings.sandwichPath))
-    val server = new Server(peerHandler, fileWatcher)
-    fileWatcher.start
-    peerHandler.start
-    server.startServer
-    // Here we want to block and hand over control to other actors.
-    // TODO: Block more intelligently.
-    Actor.receive({case _ => System.exit(0)})
+    (new Controller).act
   }
 }
