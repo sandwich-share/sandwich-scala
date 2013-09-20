@@ -8,6 +8,7 @@ import scala.collection.mutable
 import java.net.InetAddress
 import java.util.{Calendar, Date}
 import sandwich.client.peerhandler.PeerHandler.{UnSubscriptionRequest, SubscriptionRequest, PeerSetRequest}
+import sandwich.utils.Utils
 
 /**
  * Created with IntelliJ IDEA.
@@ -50,7 +51,8 @@ class PeerHandler(private var _peerSet: Set[Peer]) extends Actor {
     private def update(newPeerSet: Set[Peer]) {
       for(peer <- newPeerSet) {
         val ipAddress = peer.IP
-        if(peerMap.contains(ipAddress)) {
+        if(ipAddress == Utils.localIp) {
+        } else if(peerMap.contains(ipAddress)) {
           if(peer.LastSeen.after(peerMap(ipAddress).LastSeen)) {
             peerMap(ipAddress) = peer
           }

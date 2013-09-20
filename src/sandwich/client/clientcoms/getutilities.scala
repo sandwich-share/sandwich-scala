@@ -4,6 +4,8 @@ import java.net.{HttpURLConnection, URL, InetAddress}
 import sandwich.client.peer.Peer
 import scala.io.BufferedSource
 import sandwich.client.fileindex.FileIndex
+import java.nio.file.{Files, Path}
+import java.io.{FileReader, InputStreamReader}
 
 /**
  * Created with IntelliJ IDEA.
@@ -39,5 +41,20 @@ package object getutilities {
     Option(FileIndex.gson.fromJson(reader.mkString, classOf[FileIndex]))
   } catch {
     case _: Throwable => Option.empty
+  }
+
+  def getFile(address: InetAddress, path: Path) {
+    try {
+      val extension = "/file/" + path.toUri.toString
+      val url = new URL(address.getHostAddress + extension)
+      val connection = new InputStreamReader(url.openConnection.asInstanceOf[HttpURLConnection].getInputStream)
+      Files.createDirectories(path)
+      val file = new FileReader(path.toFile)
+      val buffer = Array[Char]()
+      connection.read(buffer)
+      file.read(buffer)
+    } catch {
+      case _: Throwable =>
+    }
   }
 }
