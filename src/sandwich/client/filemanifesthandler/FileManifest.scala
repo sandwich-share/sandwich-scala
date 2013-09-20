@@ -15,9 +15,9 @@ class FileManifest(manifestMap: mutable.Map[Peer, FileIndex]) {
 
   lazy val filePeerMap: immutable.Map[FileItem, Peer] = {
     manifestMap.map{ case(peer, index) => {
-      for { item <- index.fileList } yield (item, peer) }.toMap[FileItem, Peer]
+      for { item <- index.List } yield (item, peer) }.toMap[FileItem, Peer]
     }.fold(Map[FileItem, Peer]())((left, right) => left ++ right)
   }
 
-  def search(filter: String => Boolean): Set[FileItem] = filePeerMap.filter{ case(item, _) => filter(item.FileName) }.values.toSet[FileItem]
+  def search(filter: String => Boolean): Set[FileItem] = filePeerMap.filter{ case(item, _) => filter(item.FileName) }.keys.toSet[FileItem]
 }

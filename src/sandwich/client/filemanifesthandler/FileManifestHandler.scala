@@ -52,7 +52,7 @@ class FileManifestHandler(private val peerHandler: PeerHandler) extends Actor {
         val peerSet = getMostRecentPeerSet
         for(peer <- peerSet) {
           if(manifestMap.contains(peer)) {
-            if(manifestMap(peer).fileHash != peer.IndexHash) {
+            if(manifestMap(peer).IndexHash != peer.IndexHash) {
               getFileIndex(peer.IP) match {
                 case Some(fileIndex) => manifestMap(peer) = fileIndex
                 case None =>

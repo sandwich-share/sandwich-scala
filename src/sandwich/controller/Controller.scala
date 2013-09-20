@@ -1,4 +1,4 @@
-package controller
+package sandwich.controller
 
 import peerhandler.PeerHandler
 import utils.{Settings, Utils}
@@ -48,7 +48,7 @@ class Controller extends Actor {
 }
 
 object Controller {
-  abstract class Request extends Request
+  abstract class Request extends controller.Request
   case object ShutdownRequest extends Controller.Request
 }
 

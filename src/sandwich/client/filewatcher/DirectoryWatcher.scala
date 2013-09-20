@@ -1,4 +1,4 @@
-package filewatcher
+package sandwich.client.filewatcher
 
 import java.nio.file._
 import java.nio.file.StandardWatchEventKinds._
@@ -7,9 +7,8 @@ import scala.collection.mutable.HashMap
 import java.nio.file.attribute.BasicFileAttributes
 import scala.actors.Actor
 import fileindex.{FileItem, FileIndex}
-import scala.concurrent.Lock
 import scala.collection.convert.Wrappers.JListWrapper
-import filewatcher.DirectoryWatcher.{FileHashRequest, FileIndexRequest}
+import sandwich.client.filewatcher.DirectoryWatcher.{FileHashRequest, FileIndexRequest}
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,7 +19,7 @@ import filewatcher.DirectoryWatcher.{FileHashRequest, FileIndexRequest}
  */
 class DirectoryWatcher(val rootDirectory: Path) extends Actor {
   private val core = new DirectoryWatcherCore
-  private var fileIndex = new FileIndex(Set[FileItem]())
+  private var fileIndex = FileIndex(Set[FileItem]())
 
   override def act {
     core.start
@@ -28,7 +27,7 @@ class DirectoryWatcher(val rootDirectory: Path) extends Actor {
     while(true) {
       receive {
         case FileIndexRequest => reply(fileIndex)
-        case FileHashRequest => reply(fileIndex.fileHash)
+        case FileHashRequest => reply(fileIndex.IndexHash)
         case newFileIndex: FileIndex => fileIndex = newFileIndex
         case _ =>
       }
@@ -59,7 +58,7 @@ class DirectoryWatcher(val rootDirectory: Path) extends Actor {
 
     private def updateFileIndex {
       // TODO: The checksum in fileItem is set to zero to match the canonical version; nevertheless, we should fix this.
-      DirectoryWatcher.this ! new FileIndex((for {(key, path) <- fileWatcherMap} yield FileItem(path.toString, path.toFile.length, 0)).toSet)
+      DirectoryWatcher.this ! FileIndex((for {(key, path) <- fileWatcherMap} yield FileItem(path.toString, path.toFile.length, 0)).toSet)
     }
 
     override def act {
@@ -82,7 +81,7 @@ class DirectoryWatcher(val rootDirectory: Path) extends Actor {
             }
           }
         } catch {
-          case e: Exception =>
+          case e: Exception => println("Error")
         }
         updateFileIndex
       }

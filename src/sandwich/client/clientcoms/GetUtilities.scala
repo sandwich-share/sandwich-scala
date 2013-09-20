@@ -25,20 +25,20 @@ package object getutilities {
     val response = reader.mkString
     response == "pong"
   } catch {
-    case _ => false
+    case _: Throwable => false
   }
 
   def getPeerList(address: InetAddress): Option[Set[Peer]] = try {
     val reader = get(address, "/peerlist")
     Option(Peer.gson.fromJson(reader.mkString, classOf[Array[Peer]]).toSet[Peer])
   } catch {
-    case _ => Option.empty[Set[Peer]]
+    case _: Throwable => Option.empty[Set[Peer]]
   }
 
   def getFileIndex(address: InetAddress): Option[FileIndex] = try {
     val reader = get(address, "/fileindex")
     Option(FileIndex.gson.fromJson(reader.mkString, classOf[FileIndex]))
   } catch {
-    case _ => Option.empty
+    case _: Throwable => Option.empty
   }
 }

@@ -24,8 +24,10 @@ object FileItem {
   def gson: Gson = gsonBuilder.create()
 }
 
-class FileIndex(val fileList: Set[FileItem]) {
-  lazy val fileHash: Int = {
+case class FileIndex(var IndexHash: Int, var TimeStamp: Date, var List: Set[FileItem])
+
+object FileIndex {
+  def apply(fileList: Set[FileItem]): FileIndex = {
     val crc = new CRC32
     for(FileItem(name, size, checksum) <- fileList) {
       crc.update((for {letter <- name} yield letter.toByte).toArray)
@@ -36,13 +38,9 @@ class FileIndex(val fileList: Set[FileItem]) {
         crc.update(checksum >> i * 8)
       }
     }
-    crc.getValue.toInt
+    FileIndex(crc.getValue.toInt, new Date, fileList)
   }
 
-  val timeStamp = new Date
-}
-
-object FileIndex {
   def gson: Gson = {
     val gson = FileItem.gsonBuilder
     gson.registerTypeAdapter(classOf[Date], new DateSerializer)
@@ -54,7 +52,7 @@ object FileIndex {
 }
 
 class FileItemSetSerializer extends JsonSerializer[Set[FileItem]]{
-  def serialize(p1: Set[FileItem], p2: Type, p3: JsonSerializationContext): JsonElement = FileItem.gson.toJsonTree(p1.toSet[FileItem], classOf[Array[FileItem]])
+  def serialize(p1: Set[FileItem], p2: Type, p3: JsonSerializationContext): JsonElement = FileItem.gson.toJsonTree(p1.toArray[FileItem], classOf[Array[FileItem]])
 }
 
 class FileItemSetDeserializer extends JsonDeserializer[Set[FileItem]]{

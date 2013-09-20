@@ -36,7 +36,7 @@ object Utils {
 }
 
 class DateSerializer extends JsonSerializer[Date] {
-  override def serialize(p1: Date, p2: Type, p3: JsonSerializationContext): JsonElement = new JsonPrimitive(p1.toString)
+  override def serialize(p1: Date, p2: Type, p3: JsonSerializationContext): JsonElement = new JsonPrimitive(Utils.dateParser.format(p1))
 }
 
 class DateDeserializer extends JsonDeserializer[Date] {

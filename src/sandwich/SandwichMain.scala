@@ -1,3 +1,5 @@
+package sandwich
+
 import controller.Controller
 
 /**
@@ -9,6 +11,6 @@ import controller.Controller
  */
 object SandwichMain {
   def main(args: Array[String]) {
-    (new Controller).act
+    (new Controller).start
   }
 }

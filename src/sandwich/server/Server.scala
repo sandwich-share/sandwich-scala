@@ -70,7 +70,8 @@ class Server(private val peerHandler: PeerHandler, private val fileWatcher: Dire
       exchange.sendResponseHeaders(200, 0)
       val responseBody = new OutputStreamWriter(exchange.getResponseBody)
       val fileIndex = (fileWatcher !? DirectoryWatcher.FileIndexRequest).asInstanceOf[FileIndex]
-      responseBody.write(FileIndex.gson.toJson(fileIndex))
+      val json: String = FileIndex.gson.toJson(fileIndex)
+      responseBody.write(json)
       responseBody.close
       exchange.close
     }

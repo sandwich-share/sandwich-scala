@@ -57,7 +57,7 @@ object Settings {
         case _ => Option.empty
       }
     } catch {
-      case _ => Option.empty
+      case _: Throwable => Option.empty
     }
   }
 
