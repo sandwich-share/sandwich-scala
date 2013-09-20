@@ -3,13 +3,15 @@ package sandwich.client.filewatcher
 import java.nio.file._
 import java.nio.file.StandardWatchEventKinds._
 import java.nio.file.LinkOption._
-import scala.collection.mutable.HashMap
+import scala.collection.mutable
 import java.nio.file.attribute.BasicFileAttributes
 import scala.actors.Actor
 import sandwich.client.fileindex.{FileItem, FileIndex}
 import scala.collection.convert.Wrappers.JListWrapper
 import sandwich.client.filewatcher.DirectoryWatcher.{FileHashRequest, FileIndexRequest}
 import sandwich.controller
+import java.io.File
+import sandwich.utils.{Settings, Utils}
 
 /**
  * Created with IntelliJ IDEA.
@@ -37,7 +39,8 @@ class DirectoryWatcher(val rootDirectory: Path) extends Actor {
 
   private class DirectoryWatcherCore extends Actor {
     private val watcher = FileSystems.getDefault.newWatchService
-    private val fileWatcherMap = new HashMap[WatchKey, Path]
+    private val fileWatcherMap = mutable.Map[WatchKey, Path]()
+    private val fileSet = mutable.Set[String]()
     registerAll(rootDirectory)
     updateFileIndex
 
@@ -53,13 +56,15 @@ class DirectoryWatcher(val rootDirectory: Path) extends Actor {
     private class DirectoryWatcherVisitor extends SimpleFileVisitor[Path] {
       override def preVisitDirectory(dir: Path, attributes: BasicFileAttributes) = {
         register(dir)
+        fileSet ++= dir.toFile.listFiles.filter(!_.isDirectory).map(_.getAbsolutePath)
         FileVisitResult.CONTINUE
       }
     }
 
     private def updateFileIndex {
+      // TODO: This is kind of a mess, should probably fix it.
       // TODO: The checksum in fileItem is set to zero to match the canonical version; nevertheless, we should fix this.
-      DirectoryWatcher.this ! FileIndex((for {(key, path) <- fileWatcherMap} yield FileItem(path.toString, path.toFile.length, 0)).toSet)
+      DirectoryWatcher.this ! FileIndex((for {fileName <- fileSet} yield FileItem(fileName.replaceFirst(Settings.getSettings.sandwichPath + File.separator, ""), new File(fileName).length, 0)).toSet)
     }
 
     override def act {
@@ -73,11 +78,16 @@ class DirectoryWatcher(val rootDirectory: Path) extends Actor {
               val kind = event.kind
               val name = event.context
               val child = path.resolve(name)
-              if (kind == ENTRY_CREATE && Files.isDirectory(child, NOFOLLOW_LINKS)) {
-                registerAll(child)
+              if (kind == ENTRY_CREATE) {
+                if(Files.isDirectory(child, NOFOLLOW_LINKS)) {
+                  registerAll(child)
+                } else {
+                  fileSet.add(child.toString)
+                }
               }
               if (!key.reset) {
                 fileWatcherMap.remove(key)
+                fileSet --= path.toFile.list
               }
             }
           }

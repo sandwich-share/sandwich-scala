@@ -22,6 +22,7 @@ import scala.io.Source
 class Server(private val peerHandler: PeerHandler, private val fileWatcher: DirectoryWatcher) {
   def startServer {
     val server = HttpServer.create(new InetSocketAddress(Utils.portHash(Utils.localIp)), 100)
+    println(Utils.localIp.toString + ":" + Utils.portHash(Utils.localIp))
     server.createContext("/ping", new PingHandler)
     server.createContext("/peerlist", new PeerListHandler)
     server.createContext("/fileindex", new FileIndexHandler)
