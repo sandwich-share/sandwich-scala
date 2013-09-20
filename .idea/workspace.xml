@@ -2,23 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="928ba8b7-07bd-4caf-80e8-2b4c596793e4" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sandwich/client/peerhandler/PeerHandler.scala" afterPath="$PROJECT_DIR$/src/sandwich/client/peerhandler/PeerHandler.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sandwich/utils/Utils.scala" afterPath="$PROJECT_DIR$/src/sandwich/utils/Utils.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sandwich/client/clientcoms/getutilities.scala" afterPath="$PROJECT_DIR$/src/sandwich/client/clientcoms/getutilities.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Sandwich.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Peer.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379642592963" ignored="false" />
     <file path="/FileIndex.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379642433146" ignored="false" />
-    <file path="/Utils.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379650615889" ignored="false" />
-    <file path="/Server.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379642782977" ignored="false" />
+    <file path="/Utils.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379651657255" ignored="false" />
+    <file path="/Server.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379651695208" ignored="false" />
     <file path="/SandwichMain.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379640401561" ignored="false" />
     <file path="/DirectoryWatcher.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379642565662" ignored="false" />
     <file path="/PeerHandler.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379643514528" ignored="false" />
     <file path="/GetUtilities.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379645825235" ignored="false" />
     <file path="/Settings.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379642165231" ignored="false" />
-    <file path="/Dummy.txt" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379642840511" ignored="false" />
+    <file path="/Dummy.txt" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379651611540" ignored="false" />
     <file path="/FileManifestHandler.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379642514671" ignored="false" />
     <file path="/FileManifest.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379642467885" ignored="false" />
     <file path="/Controller.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379642756272" ignored="false" />
@@ -101,24 +99,29 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Settings.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/sandwich/utils/Settings.scala">
+      <file leaf-file-name="Controller.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/sandwich/controller/Controller.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#24#83#0" expanded="true" />
-              </folding>
+            <state line="20" column="6" selection-start="590" selection-end="590" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Utils.scala" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Utils.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sandwich/utils/Utils.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#24#41#0" expanded="true" />
-              </folding>
+            <state line="59" column="99" selection-start="1677" selection-end="1677" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Server.scala" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/sandwich/server/Server.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="23" column="93" selection-start="803" selection-end="803" vertical-scroll-proportion="0.26086956">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -154,10 +157,10 @@
         <option value="$PROJECT_DIR$/src/sandwich/client/filewatcher/DirectoryWatcher.scala" />
         <option value="$PROJECT_DIR$/src/sandwich/client/peer/Peer.scala" />
         <option value="$PROJECT_DIR$/src/sandwich/controller/Controller.scala" />
-        <option value="$PROJECT_DIR$/src/sandwich/server/Server.scala" />
         <option value="$PROJECT_DIR$/src/sandwich/client/peerhandler/PeerHandler.scala" />
         <option value="$PROJECT_DIR$/src/sandwich/client/clientcoms/getutilities.scala" />
         <option value="$PROJECT_DIR$/src/sandwich/utils/Utils.scala" />
+        <option value="$PROJECT_DIR$/src/sandwich/server/Server.scala" />
       </list>
     </option>
   </component>
@@ -209,6 +212,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -293,9 +297,258 @@
               <option name="myItemType" value="org.jetbrains.plugins.scala.components.ScalaDefsProjectViewProvider$ScalaFileTreeNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Sandwich" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Sandwich" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sandwich" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="server" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Sandwich" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Sandwich" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sandwich" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controller" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Controller.scala" />
+              <option name="myItemType" value="org.jetbrains.plugins.scala.components.ScalaDefsProjectViewProvider$ScalaFileTreeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Sandwich" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Sandwich" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sandwich" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="peerhandler" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PeerHandler.scala" />
+              <option name="myItemType" value="org.jetbrains.plugins.scala.components.ScalaDefsProjectViewProvider$ScalaFileTreeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Sandwich" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Sandwich" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sandwich" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="peer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Peer.scala" />
+              <option name="myItemType" value="org.jetbrains.plugins.scala.components.ScalaDefsProjectViewProvider$ScalaFileTreeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Sandwich" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Sandwich" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sandwich" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="filewatcher" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DirectoryWatcher.scala" />
+              <option name="myItemType" value="org.jetbrains.plugins.scala.components.ScalaDefsProjectViewProvider$ScalaFileTreeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Sandwich" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Sandwich" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sandwich" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="filemanifesthandler" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FileManifestHandler.scala" />
+              <option name="myItemType" value="org.jetbrains.plugins.scala.components.ScalaDefsProjectViewProvider$ScalaFileTreeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Sandwich" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Sandwich" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sandwich" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="filemanifesthandler" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Sandwich" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Sandwich" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sandwich" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fileindex" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FileIndex.scala" />
+              <option name="myItemType" value="org.jetbrains.plugins.scala.components.ScalaDefsProjectViewProvider$ScalaFileTreeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Sandwich" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Sandwich" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sandwich" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="clientcoms" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -313,13 +566,13 @@
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="restartRequiresConfirmation" value="true" />
-    <property name="MemberChooser.showClasses" value="true" />
     <property name="Repository.Attach.Sources" value="true" />
+    <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="dynamic.classpath" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
-    <property name="options.searchVisible" value="true" />
     <property name="Downloaded.Files.Path" value="$PROJECT_DIR$/lib" />
+    <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="dynamic.classpath" value="false" />
   </component>
   <component name="RunManager" selected="Application.SandwichMain">
     <configuration default="false" name="S" type="Application" factoryName="Application" temporary="true">
@@ -374,6 +627,19 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method />
+    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -399,19 +665,6 @@
       <envs />
       <properties />
       <listeners />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -511,7 +764,11 @@
       <created>1379642847268</created>
       <updated>1379642847268</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="I added port hashing and a better lookup for the local ip">
+      <created>1379650689756</created>
+      <updated>1379650689756</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -583,7 +840,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="I fixed a ton more stuff." />
+    <option name="LAST_COMMIT_MESSAGE" value="I added port hashing and a better lookup for the local ip" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -603,6 +860,7 @@
     <MESSAGE value="I implemented the controller" />
     <MESSAGE value="I fixed tons of stuff." />
     <MESSAGE value="I fixed a ton more stuff." />
+    <MESSAGE value="I added port hashing and a better lookup for the local ip" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -642,9 +900,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sandwich/SandwichMain.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="12" selection-start="215" selection-end="215" vertical-scroll-proportion="0.35869566">
-          <folding />
-        </state>
+        <state line="11" column="12" selection-start="215" selection-end="215" vertical-scroll-proportion="0.35869566" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sandwich/client/fileindex/FileIndex.scala">
@@ -656,20 +912,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sandwich/client/filemanifesthandler/FileManifest.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="37" selection-start="178" selection-end="178" vertical-scroll-proportion="0.16233766">
-          <folding>
-            <element signature="e#45#89#0" expanded="false" />
-          </folding>
-        </state>
+        <state line="5" column="37" selection-start="178" selection-end="178" vertical-scroll-proportion="0.16233766" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sandwich/client/filemanifesthandler/FileManifestHandler.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="49" selection-start="417" selection-end="417" vertical-scroll-proportion="0.22727273">
-          <folding>
-            <element signature="e#45#70#0" expanded="false" />
-          </folding>
-        </state>
+        <state line="9" column="49" selection-start="417" selection-end="417" vertical-scroll-proportion="0.22727273" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sandwich/client/filewatcher/DirectoryWatcher.scala">
@@ -690,24 +938,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sandwich/controller/Controller.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="26" selection-start="1663" selection-end="1663" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#29#75#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sandwich/server/Server.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="31" selection-start="625" selection-end="625" vertical-scroll-proportion="0.6818182">
-          <folding>
-            <element signature="e#25#65#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/sandwich/client/peerhandler/PeerHandler.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
@@ -719,28 +949,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sandwich/utils/Settings.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#24#83#0" expanded="true" />
-          </folding>
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sandwich/client/clientcoms/getutilities.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="58" column="31" selection-start="1925" selection-end="1925" vertical-scroll-proportion="1.2913043">
-          <folding>
-            <element signature="e#36#89#0" expanded="true" />
-          </folding>
+        <state line="58" column="31" selection-start="1925" selection-end="1925" vertical-scroll-proportion="1.2913043" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sandwich/controller/Controller.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="6" selection-start="590" selection-end="590" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sandwich/utils/Utils.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#24#41#0" expanded="true" />
-          </folding>
+        <state line="59" column="99" selection-start="1677" selection-end="1677" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sandwich/server/Server.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="93" selection-start="803" selection-end="803" vertical-scroll-proportion="0.26086956">
+          <folding />
         </state>
       </provider>
     </entry>

@@ -57,8 +57,8 @@ object Utils {
   }
 
   def getLocalIp: InetAddress = try {
-    val response = Source.fromInputStream(new URL("www.curlmyip.com").openStream())
-    InetAddress.getByName(response.mkString)
+    val response = Source.fromInputStream(new URL("http://www.curlmyip.com").openStream()).mkString
+    InetAddress.getByName(response)
   } catch {
     case _: Throwable => InetAddress.getLocalHost
   }
