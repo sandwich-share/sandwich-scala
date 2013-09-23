@@ -2,7 +2,12 @@ name := "sandwhich"
 
 version := "0.9"
 
-scalaVersion := 2.10.2
+scalaVersion := "2.10.2"
+
+libraryDependencies ++= Seq(
+  "org.scala-lang" % "scala-swing" % "2.10.2",
+  "org.scala-lang" % "scala-actors" % "2.10.2"
+)
 
 libraryDependencies += "com.google.code.gson" % "gson" % "2.2.4"
 
