@@ -6,10 +6,11 @@ import sandwich.client.filewatcher.DirectoryWatcher
 import java.nio.file.Paths
 import sandwich.client.filemanifesthandler.FileManifestHandler
 import sandwich.server.Server
-import scala.actors.Actor
+import scala.actors.{Scheduler, Actor}
 import sandwich.controller.Controller.ShutdownRequest
 import sandwich.client.peer.Peer
 import sandwich.controller
+import scala.actors.scheduler.ResizableThreadPoolScheduler
 
 /**
  * Created with IntelliJ IDEA.
@@ -25,6 +26,12 @@ class Controller extends Actor {
   val fileManifestHandler = new FileManifestHandler(peerHandler)
   val server = new Server(peerHandler, directoryWatcher)
 
+  Scheduler.impl = {
+    val scheduler = new ResizableThreadPoolScheduler(false)
+    scheduler.start
+    scheduler
+  }
+
   override def act {
     peerHandler.start
     directoryWatcher.start
@@ -33,10 +40,10 @@ class Controller extends Actor {
 
     while(true) {
       receive {
-        case _: PeerHandler.Request => peerHandler ! _
-        case _: DirectoryWatcher.Request => directoryWatcher ! _
-        case _: FileManifestHandler.Request => fileManifestHandler ! _
-        case ShutdownRequest =>
+        case request: PeerHandler.Request => if(request.expectsResponse) { reply(peerHandler !? request) } else { peerHandler ! request }
+        case request: DirectoryWatcher.Request => if(request.expectsResponse) { reply(peerHandler !? request) } else { directoryWatcher ! request }
+        case request: FileManifestHandler.Request => if(request.expectsResponse) { reply(peerHandler !? request) } else {fileManifestHandler ! request }
+        case ShutdownRequest => shutdown
       }
     }
   }
@@ -53,4 +60,6 @@ object Controller {
   case object ShutdownRequest extends Controller.Request
 }
 
-abstract class Request
+abstract class Request {
+  def expectsResponse:Boolean = false
+}

@@ -109,7 +109,12 @@ class PeerHandler(private var _peerSet: Set[Peer]) extends Actor {
 
 object PeerHandler {
   abstract class Request extends controller.Request
-  case object PeerSetRequest extends PeerHandler.Request
+
+  case object PeerSetRequest extends PeerHandler.Request {
+    override def expectsResponse = true
+  }
+
   case class SubscriptionRequest(val actor: Actor) extends PeerHandler.Request
+
   case class UnSubscriptionRequest(val actor: Actor) extends PeerHandler.Request
 }

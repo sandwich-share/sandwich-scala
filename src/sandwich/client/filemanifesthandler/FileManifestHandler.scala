@@ -74,7 +74,12 @@ class FileManifestHandler(private val peerHandler: PeerHandler) extends Actor {
 
 object FileManifestHandler {
   abstract class Request extends controller.Request
-  case object FileManifestRequest extends FileManifestHandler.Request
+
+  case object FileManifestRequest extends FileManifestHandler.Request {
+    override def expectsResponse = true
+  }
+
   case object SleepRequest extends FileManifestHandler.Request
+
   case object WakeRequest extends FileManifestHandler.Request
 }

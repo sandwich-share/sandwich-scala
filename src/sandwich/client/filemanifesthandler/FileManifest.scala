@@ -21,3 +21,7 @@ class FileManifest(manifestMap: mutable.Map[Peer, FileIndex]) {
 
   def search(filter: String => Boolean): Set[FileItem] = filePeerMap.filter{ case(item, _) => filter(item.FileName) }.keys.toSet[FileItem]
 }
+
+object FileManifest {
+  def simpleSearch(string: String): String => Boolean = { (s: String) => s.contains(string) }
+}

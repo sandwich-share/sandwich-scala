@@ -102,6 +102,12 @@ class DirectoryWatcher(val rootDirectory: Path) extends Actor {
 
 object DirectoryWatcher {
   abstract class Request extends controller.Request
-  object FileIndexRequest extends DirectoryWatcher.Request
-  object FileHashRequest extends DirectoryWatcher.Request
+
+  object FileIndexRequest extends DirectoryWatcher.Request {
+    override def expectsResponse = true
+  }
+
+  object FileHashRequest extends DirectoryWatcher.Request {
+    override def expectsResponse = true
+  }
 }
