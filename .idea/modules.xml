@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Sandwich.iml" filepath="$PROJECT_DIR$/Sandwich.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea_modules/sandwhich.iml" filepath="$PROJECT_DIR$/.idea_modules/sandwhich.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea_modules/sandwhich-build.iml" filepath="$PROJECT_DIR$/.idea_modules/sandwhich-build.iml" />
     </modules>
   </component>
 </project>

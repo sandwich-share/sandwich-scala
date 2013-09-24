@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="928ba8b7-07bd-4caf-80e8-2b4c596793e4" name="Default" comment="IT WORKS!!!!!!!!!!!!!">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/sandwich/frontend/SandwichMainFrame.scala" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/sandwich/SandwichSwingApplication.scala" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/sandwich/SandwichMain.scala" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sandwich/controller/Controller.scala" afterPath="$PROJECT_DIR$/src/sandwich/controller/Controller.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sandwich/client/filewatcher/DirectoryWatcher.scala" afterPath="$PROJECT_DIR$/src/sandwich/client/filewatcher/DirectoryWatcher.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sandwich/client/filemanifesthandler/FileManifest.scala" afterPath="$PROJECT_DIR$/src/sandwich/client/filemanifesthandler/FileManifest.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sandwich/client/filemanifesthandler/FileManifestHandler.scala" afterPath="$PROJECT_DIR$/src/sandwich/client/filemanifesthandler/FileManifestHandler.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sandwich/client/peerhandler/PeerHandler.scala" afterPath="$PROJECT_DIR$/src/sandwich/client/peerhandler/PeerHandler.scala" />
+    <list default="true" id="928ba8b7-07bd-4caf-80e8-2b4c596793e4" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/scala/sandwich/frontend/SandwichPane.scala" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/scala/sandwich/frontend/SearchPane.scala" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/scala/sandwich/frontend/SettingsPane.scala" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Sandwich.iml" afterPath="$PROJECT_DIR$/Sandwich.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/sandwich/frontend/SandwichMainFrame.scala" afterPath="$PROJECT_DIR$/src/main/scala/sandwich/frontend/SandwichMainFrame.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/sandwich/SandwichSwingApplication.scala" afterPath="$PROJECT_DIR$/src/main/scala/sandwich/SandwichSwingApplication.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Sandwich.iws" />
@@ -23,16 +23,19 @@
     <file path="/PeerHandler.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379907810162" ignored="false" />
     <file path="/GetUtilities.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379645825235" ignored="false" />
     <file path="/Settings.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379642165231" ignored="false" />
-    <file path="/Dummy.txt" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379907991485" ignored="false" />
+    <file path="/Dummy.txt" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1380007822278" ignored="false" />
     <file path="/FileManifestHandler.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379907763822" ignored="false" />
     <file path="/FileManifest.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379707807629" ignored="false" />
-    <file path="/Controller.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379907599531" ignored="false" />
-    <file path="/fragment.java" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379709244278" ignored="false" />
+    <file path="/Controller.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379990051276" ignored="false" />
+    <file path="/fragment.java" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379985781478" ignored="false" />
     <file path="/getutilities.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379645669786" ignored="false" />
-    <file path="/SandwichSwingApplication.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379903454470" ignored="false" />
-    <file path="/SandwichMainFrame.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379905837257" ignored="false" />
+    <file path="/SandwichSwingApplication.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379985647217" ignored="false" />
+    <file path="/SandwichMainFrame.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1380010777303" ignored="false" />
     <file path="/Scala Console" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379708957903" ignored="false" />
-    <file path="/SBT" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379886254254" ignored="false" />
+    <file path="/SBT" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379965710213" ignored="false" />
+    <file path="/SettingsPane.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1380011463493" ignored="false" />
+    <file path="/SandwichPane.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1380011391157" ignored="false" />
+    <file path="/SearchPane.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1380010179467" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +50,6 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -101,6 +103,7 @@
         <option name="LOG_MESSAGE" value="&#13;&#13;Scala" />
       </breakpoint>
     </line_breakpoints>
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -111,20 +114,47 @@
   <component name="FileEditorManager">
     <leaf>
       <file leaf-file-name="SandwichSwingApplication.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/sandwich/SandwichSwingApplication.scala">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/sandwich/SandwichSwingApplication.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="64" selection-start="487" selection-end="487" vertical-scroll-proportion="0.0">
+            <state line="23" column="26" selection-start="581" selection-end="581" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SandwichMainFrame.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/sandwich/frontend/SandwichMainFrame.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="22" column="17" selection-start="674" selection-end="674" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SettingsPane.scala" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/sandwich/frontend/SettingsPane.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="15" column="37" selection-start="439" selection-end="439" vertical-scroll-proportion="0.48913044">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SearchPane.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/sandwich/frontend/SearchPane.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="35" column="24" selection-start="1077" selection-end="1077" vertical-scroll-proportion="0.0">
               <folding>
-                <element signature="e#18#68#0" expanded="true" />
+                <element signature="e#27#47#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FileManifestHandler.scala" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/sandwich/client/filemanifesthandler/FileManifestHandler.scala">
+      <file leaf-file-name="SandwichPane.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/sandwich/frontend/SandwichPane.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="50" column="68" selection-start="1568" selection-end="1568" vertical-scroll-proportion="0.29934925">
+            <state line="22" column="37" selection-start="633" selection-end="633" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -149,12 +179,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/sandwich/SandwichMain.scala" />
-        <option value="$PROJECT_DIR$/src/sandwich/client/clientcoms/GetUtilities.scala" />
-        <option value="$PROJECT_DIR$/src/sandwich/utils/Settings.scala" />
-        <option value="$PROJECT_DIR$/src/sandwich/client/fileindex/FileIndex.scala" />
-        <option value="$PROJECT_DIR$/src/sandwich/client/peer/Peer.scala" />
-        <option value="$PROJECT_DIR$/src/sandwich/client/clientcoms/getutilities.scala" />
         <option value="$PROJECT_DIR$/src/sandwich/utils/Utils.scala" />
         <option value="$PROJECT_DIR$/src/sandwich/server/Server.scala" />
         <option value="$PROJECT_DIR$/src/sandwich/client/filemanifesthandler/FileManifest.scala" />
@@ -165,6 +189,12 @@
         <option value="$PROJECT_DIR$/src/sandwich/client/filewatcher/DirectoryWatcher.scala" />
         <option value="$PROJECT_DIR$/src/sandwich/client/filemanifesthandler/FileManifestHandler.scala" />
         <option value="$PROJECT_DIR$/src/sandwich/client/peerhandler/PeerHandler.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/sandwich/SandwichSwingApplication.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/sandwich/controller/Controller.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/sandwich/frontend/SearchPane.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/sandwich/frontend/SandwichMainFrame.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/sandwich/frontend/SandwichPane.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/sandwich/frontend/SettingsPane.scala" />
       </list>
     </option>
   </component>
@@ -216,6 +246,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -247,6 +278,28 @@
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Sandwich" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Sandwich" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scala" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="sandwich" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
@@ -266,25 +319,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="sandwich" />
+              <option name="myItemId" value="main" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Sandwich" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Sandwich" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
+              <option name="myItemId" value="scala" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -310,6 +349,14 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scala" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="sandwich" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -317,34 +364,8 @@
               <option name="myItemId" value="controller" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-          </PATH>
-          <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Sandwich" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Sandwich" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sandwich" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="peerhandler" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PeerHandler.scala" />
+              <option name="myItemId" value="Controller.scala" />
               <option name="myItemType" value="org.jetbrains.plugins.scala.components.ScalaDefsProjectViewProvider$ScalaFileTreeNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -362,11 +383,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="sandwich" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
+              <option name="myItemId" value="main" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -380,61 +397,18 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sandwich" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="filemanifesthandler" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FileManifestHandler.scala" />
-              <option name="myItemType" value="org.jetbrains.plugins.scala.components.ScalaDefsProjectViewProvider$ScalaFileTreeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Sandwich" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Sandwich" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sandwich" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="filemanifesthandler" />
+              <option name="myItemId" value="config" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="GoToFile.includeJavaFiles" value="false" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="Repository.Attach.JavaDocs" value="false" />
@@ -446,15 +420,15 @@
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="restartRequiresConfirmation" value="true" />
-    <property name="Repository.Attach.Sources" value="true" />
     <property name="MemberChooser.showClasses" value="true" />
+    <property name="Repository.Attach.Sources" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="Downloaded.Files.Path" value="$PROJECT_DIR$/lib" />
-    <property name="options.searchVisible" value="true" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="dynamic.classpath" value="false" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
+    <property name="Downloaded.Files.Path" value="$PROJECT_DIR$/lib" />
   </component>
-  <component name="RunManager" selected="Application.Sandwich">
+  <component name="RunManager" selected="Application.SandwichSwingApplication">
     <configuration default="false" name="Scala Console" type="ScalaScriptConsoleRunConfiguration" factoryName="Scala Console" temporary="true">
       <module name="Sandwich" />
       <setting name="vmparams4" value="-Djline.terminal=NONE" />
@@ -485,19 +459,6 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method />
-    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -523,6 +484,19 @@
       <envs />
       <properties />
       <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -560,7 +534,7 @@
       <method />
     </configuration>
     <configuration default="false" name="Sandwich" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="sandwich.SandwichSwingApplication" />
+      <option name="MAIN_CLASS_NAME" value="sandwich.SandwichSwingApplication$" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
@@ -569,7 +543,7 @@
       <option name="ENABLE_SWING_INSPECTOR" value="false" />
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="Sandwich" />
+      <module name="" />
       <envs />
       <RunnerSettings RunnerId="Debug">
         <option name="DEBUG_PORT" value="" />
@@ -581,9 +555,26 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <list size="2">
+    <configuration default="false" name="SandwichSwingApplication" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="sandwich.SandwichSwingApplication" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="sandwhich" />
+      <envs />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <list size="3">
       <item index="0" class="java.lang.String" itemvalue="Application.Sandwich" />
-      <item index="1" class="java.lang.String" itemvalue="Scala Console.Scala Console" />
+      <item index="1" class="java.lang.String" itemvalue="Application.SandwichSwingApplication" />
+      <item index="2" class="java.lang.String" itemvalue="Scala Console.Scala Console" />
     </list>
     <recent_temporary>
       <list size="1">
@@ -655,18 +646,22 @@
       <created>1379655004390</created>
       <updated>1379655004390</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="I started getting the gui to work">
+      <created>1379908043428</created>
+      <updated>1379908043428</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="27" width="1602" height="874" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32827586" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32737276" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="SBT Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32911393" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="SBT Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32827586" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -676,8 +671,8 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24967825" sideWeight="0.6703448" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24967825" sideWeight="0.67172414" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32965517" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24967825" sideWeight="0.6703448" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32965517" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -727,7 +722,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="IT WORKS!!!!!!!!!!!!!" />
+    <option name="LAST_COMMIT_MESSAGE" value="I started getting the gui to work" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -750,6 +745,7 @@
     <MESSAGE value="I added port hashing and a better lookup for the local ip" />
     <MESSAGE value="I got the function that gets the local ip working." />
     <MESSAGE value="IT WORKS!!!!!!!!!!!!!" />
+    <MESSAGE value="I started getting the gui to work" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -763,40 +759,44 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/sandwich/frontend/SandwichMainFrame.scala">
+    <entry file="file://$PROJECT_DIR$/src/main/scala/sandwich/SandwichSwingApplication.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="43" selection-start="597" selection-end="597" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#27#47#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/settings.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sandwich/client/fileindex/FileIndex.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="0" selection-start="62" selection-end="62" vertical-scroll-proportion="0.100222714" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sandwich/client/peer/Peer.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="34" selection-start="162" selection-end="162" vertical-scroll-proportion="0.19480519" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sandwich/utils/Settings.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sandwich/utils/Utils.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="59" column="99" selection-start="1677" selection-end="1677" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/sandwich/controller/Controller.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="32" selection-start="688" selection-end="688" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/sandwich/frontend/SandwichMainFrame.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="30" selection-start="1249" selection-end="1249" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/sandwich/SandwichSwingApplication.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="24" selection-start="580" selection-end="580" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/sandwich/SandwichSwingApplication.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/sandwich/client/peer/Peer.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/.idea/uiDesigner.xml">
@@ -804,69 +804,61 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sandwich/client/clientcoms/getutilities.scala">
+    <entry file="file://$PROJECT_DIR$/src/main/scala/sandwich/client/peer/Peer.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="15" selection-start="450" selection-end="450" vertical-scroll-proportion="0.33238232" />
+        <state line="29" column="48" selection-start="748" selection-end="748" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sandwich/client/filemanifesthandler/FileManifest.scala">
+    <entry file="file://$PROJECT_DIR$/config/settings.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="20" selection-start="521" selection-end="521" vertical-scroll-proportion="0.32097003">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/PeerIndexCache.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/sandwich/SandwichSwingApplication.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="26" selection-start="581" selection-end="581" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sandwich/frontend/SandwichMainFrame.scala">
+    <entry file="file://$PROJECT_DIR$/src/main/scala/sandwich/controller/Controller.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="4" selection-start="1321" selection-end="1321" vertical-scroll-proportion="0.0">
+        <state line="21" column="32" selection-start="688" selection-end="688" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/sandwich/frontend/SandwichMainFrame.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="17" selection-start="674" selection-end="674" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/sandwich/frontend/SearchPane.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="24" selection-start="1077" selection-end="1077" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#27#47#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sandwich/client/filewatcher/DirectoryWatcher.scala">
+    <entry file="file://$PROJECT_DIR$/src/main/scala/sandwich/frontend/SandwichPane.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="108" column="2" selection-start="3574" selection-end="3574" vertical-scroll-proportion="0.86577183">
+        <state line="22" column="37" selection-start="633" selection-end="633" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sandwich/server/Server.scala">
+    <entry file="file://$PROJECT_DIR$/src/main/scala/sandwich/frontend/SettingsPane.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="79" column="0" selection-start="2969" selection-end="2969" vertical-scroll-proportion="0.9347826">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sandwich/client/peerhandler/PeerHandler.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="117" column="2" selection-start="3630" selection-end="3630" vertical-scroll-proportion="0.8695652">
-          <folding>
-            <element signature="e#37#73#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sandwich/controller/Controller.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="80" selection-start="1749" selection-end="1749" vertical-scroll-proportion="0.3478261">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sandwich/SandwichSwingApplication.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="64" selection-start="487" selection-end="487" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#18#68#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sandwich/client/filemanifesthandler/FileManifestHandler.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="68" selection-start="1568" selection-end="1568" vertical-scroll-proportion="0.29934925">
+        <state line="15" column="37" selection-start="439" selection-end="439" vertical-scroll-proportion="0.48913044">
           <folding />
         </state>
       </provider>
@@ -923,7 +915,7 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>Sandwich</last-edited>
+          <last-edited>sandwhich</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
