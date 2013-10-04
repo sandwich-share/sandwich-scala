@@ -5,7 +5,9 @@ import sandwich.client.peer.Peer
 import scala.io.BufferedSource
 import sandwich.client.fileindex.FileIndex
 import java.nio.file.{Files, Path}
-import java.io.{FileReader, InputStreamReader}
+import java.io.{FileWriter, InputStreamReader}
+import sandwich.utils.ChunkyWriter
+import scala.concurrent.future
 
 /**
  * Created with IntelliJ IDEA.
@@ -44,15 +46,19 @@ package object getutilities {
   }
 
   def getFile(address: InetAddress, path: Path) {
+    // TODO: We should guarantee that failures clean themselves up.
     try {
       val extension = "/file/" + path.toUri.toString
       val url = new URL(address.getHostAddress + extension)
       val connection = new InputStreamReader(url.openConnection.asInstanceOf[HttpURLConnection].getInputStream)
       Files.createDirectories(path)
-      val file = new FileReader(path.toFile)
-      val buffer = Array[Char]()
-      connection.read(buffer)
-      file.read(buffer)
+      val fileWriter = new FileWriter(path.toFile)
+      val chunkyWriter = new ChunkyWriter(fileWriter)
+      future {
+        chunkyWriter.write(connection)
+        fileWriter.close()
+        connection.close()
+      }
     } catch {
       case _: Throwable =>
     }

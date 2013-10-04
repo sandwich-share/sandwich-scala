@@ -9,11 +9,10 @@ import scala.swing.event.EditDone
 import scala.Array
 
 /**
- * Created with IntelliJ IDEA.
- * User: brendan
+ * Sandwich
+ * User: Brendan Higgins
  * Date: 9/24/13
  * Time: 4:09 AM
- * To change this template use File | Settings | File Templates.
  */
 class SearchPane extends BoxPanel(Orientation.Vertical) {
   private val searchBox = new TextField

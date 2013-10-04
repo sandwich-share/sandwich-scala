@@ -63,9 +63,16 @@ object Utils {
     case _: Throwable => InetAddress.getLocalHost
   }
 
-  def getCachedPeerIndex: Set[Peer] = {
+  def getCachedPeerIndex: Option[Set[Peer]] = try {
     val file = Source.fromFile(peerIndexPath)
-    Peer.gson.fromJson(file.mkString, classOf[Array[Peer]]).toSet[Peer]
+    val peerSet = Peer.gson.fromJson(file.mkString, classOf[Array[Peer]])
+    if(peerSet.length > 0) {
+      return Some(peerSet.toSet[Peer])
+    } else {
+      return None
+    }
+  } catch {
+    case _: Throwable => return None
   }
 
   def cachePeerIndex(peerSet: Set[Peer]) {

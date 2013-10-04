@@ -5,13 +5,16 @@ import java.nio.file.StandardWatchEventKinds._
 import java.nio.file.LinkOption._
 import scala.collection.mutable
 import java.nio.file.attribute.BasicFileAttributes
-import scala.actors.Actor
 import sandwich.client.fileindex.{FileItem, FileIndex}
 import scala.collection.convert.Wrappers.JListWrapper
 import sandwich.client.filewatcher.DirectoryWatcher.{FileHashRequest, FileIndexRequest}
 import sandwich.controller
 import java.io.File
-import sandwich.utils.{Settings, Utils}
+import sandwich.utils.Settings
+import akka.actor._
+import akka.agent.Agent
+import scala.collection.convert.Wrappers.JListWrapper
+import akka.actor.ActorIdentity
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,23 +24,35 @@ import sandwich.utils.{Settings, Utils}
  * To change this template use File | Settings | File Templates.
  */
 class DirectoryWatcher(val rootDirectory: Path) extends Actor {
-  private val core = new DirectoryWatcherCore
+  import context._
   private var fileIndex = FileIndex(Set[FileItem]())
+  private val isRunning = Agent[Boolean](true)
+  private val subscribers = mutable.Set[ActorRef]()
 
-  override def act {
-    core.start
-
-    while(true) {
-      receive {
-        case FileIndexRequest => reply(fileIndex)
-        case FileHashRequest => reply(fileIndex.IndexHash)
-        case newFileIndex: FileIndex => fileIndex = newFileIndex
-        case _ =>
-      }
-    }
+  override def preStart {
+    DirectoryWatcherCore.start
   }
 
-  private class DirectoryWatcherCore extends Actor {
+  override def postStop {
+    isRunning.send(false) // Kill the DirectoryWatcherCore.
+  }
+
+  override def receive = {
+    case FileIndexRequest => sender ! fileIndex
+    case FileHashRequest => sender ! fileIndex.IndexHash
+    case newFileIndex: FileIndex => {
+      fileIndex = newFileIndex
+      subscribers.foreach(_ ! fileIndex)
+      println(fileIndex)
+    }
+    case ActorIdentity(_, actorOption) => actorOption.foreach {
+      actor => watch(actor)
+      subscribers += actor
+    }
+    case Terminated(actorRef) => subscribers -= actorRef
+  }
+
+  private object DirectoryWatcherCore extends Thread {
     private val watcher = FileSystems.getDefault.newWatchService
     private val fileWatcherMap = mutable.Map[WatchKey, Path]()
     private val fileSet = mutable.Set[String]()
@@ -64,11 +79,11 @@ class DirectoryWatcher(val rootDirectory: Path) extends Actor {
     private def updateFileIndex {
       // TODO: This is kind of a mess, should probably fix it.
       // TODO: The checksum in fileItem is set to zero to match the canonical version; nevertheless, we should fix this.
-      DirectoryWatcher.this ! FileIndex((for {fileName <- fileSet} yield FileItem(fileName.replaceFirst(Settings.getSettings.sandwichPath + File.separator, ""), new File(fileName).length, 0)).toSet)
+      self ! FileIndex(fileSet.map(fileName => FileItem(fileName.replaceFirst(Settings.getSettings.sandwichPath + File.separator, ""), new File(fileName).length, 0)).toSet)
     }
 
-    override def act {
-      while(true) {
+    override def run {
+      while(isRunning()) {
         try {
           val key = watcher.take
           val path = fileWatcherMap(key)
@@ -103,11 +118,9 @@ class DirectoryWatcher(val rootDirectory: Path) extends Actor {
 object DirectoryWatcher {
   abstract class Request extends controller.Request
 
-  object FileIndexRequest extends DirectoryWatcher.Request {
-    override def expectsResponse = true
-  }
+  object FileIndexRequest extends DirectoryWatcher.Request
 
-  object FileHashRequest extends DirectoryWatcher.Request {
-    override def expectsResponse = true
-  }
+  object FileHashRequest extends DirectoryWatcher.Request
+
+  def props(rootDirectory: Path) = Props(classOf[DirectoryWatcher], rootDirectory)
 }

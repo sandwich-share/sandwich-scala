@@ -12,9 +12,8 @@ import javax.swing.UIManager
  * Time: 3:10 PM
  * To change this template use File | Settings | File Templates.
  */
-object SandwichSwingApplication extends SimpleSwingApplication {
+class SandwichSwingApplication extends SimpleSwingApplication {
   private val controller = new Controller
-  controller.start
 
   try {
     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName)

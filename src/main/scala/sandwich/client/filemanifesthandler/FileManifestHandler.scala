@@ -1,6 +1,5 @@
 package sandwich.client.filemanifesthandler
 
-import scala.actors.Actor
 import sandwich.client.peer.Peer
 import sandwich.client.fileindex.FileIndex
 import scala.collection.mutable.Map
@@ -8,6 +7,8 @@ import sandwich.client.clientcoms.getutilities._
 import sandwich.client.filemanifesthandler.FileManifestHandler.{WakeRequest, SleepRequest, FileManifestRequest}
 import sandwich.controller
 import sandwich.client.peerhandler.PeerHandler
+import akka.actor.{Props, Actor, Identify}
+import akka.agent.Agent
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,41 +17,33 @@ import sandwich.client.peerhandler.PeerHandler
  * Time: 10:51 AM
  * To change this template use File | Settings | File Templates.
  */
-class FileManifestHandler(private val peerHandler: PeerHandler) extends Actor {
-  private val core = new FileManifestHandlerCore
+class FileManifestHandler extends Actor {
+  import context._
   private var fileManifest = new FileManifest(Map[Peer, FileIndex]())
+  private val isRunning = Agent[Boolean](true)
+  private val mostRecentPeerSet = Agent[Set[Peer]](Set[Peer]())
+  context.actorSelection("/user/peerhandler") ! Identify("Hi")
 
-  override def act {
-    peerHandler ! PeerHandler.SubscriptionRequest(core)
-    while(true) {
-      receive {
-        case newManifest: FileManifest => fileManifest = newManifest
-        case FileManifestRequest => reply(fileManifest)
-        case SleepRequest => peerHandler ! PeerHandler.UnSubscriptionRequest(core)
-        case WakeRequest => peerHandler ! PeerHandler.SubscriptionRequest(core)
-        case _ =>
-      }
-    }
+  override def preStart {
+    FileManifestHandlerCore.start
   }
 
-  private class FileManifestHandlerCore extends Actor {
+  override def postStop {
+    isRunning.send(false)
+  }
+
+  override def receive = {
+    case newManifest: FileManifest => fileManifest = newManifest
+    case peerSet: Set[Peer] => mostRecentPeerSet.send(peerSet)
+    case FileManifestRequest => sender ! fileManifest
+  }
+
+  private object FileManifestHandlerCore extends Thread {
     val manifestMap = Map[Peer, FileIndex]()
 
-    private def getMostRecentPeerSet: Set[Peer] = {
-      while(mailboxSize > 1) {
-        receive {
-          case _ =>
-        }
-      }
-      receive {
-        case peerSet: Set[Peer] => peerSet
-      }
-    }
-
-    override def act {
-      while(true) {
-        val peerSet = getMostRecentPeerSet
-        for(peer <- peerSet) {
+    override def run {
+      while(isRunning()) {
+        for(peer <- mostRecentPeerSet()) {
           if(manifestMap.contains(peer)) {
             if(manifestMap(peer).IndexHash != peer.IndexHash) {
               getFileIndex(peer.IP) match {
@@ -65,7 +58,7 @@ class FileManifestHandler(private val peerHandler: PeerHandler) extends Actor {
             }
           }
         }
-        FileManifestHandler.this ! new FileManifest(manifestMap)
+        self ! new FileManifest(manifestMap)
       }
     }
   }
@@ -75,11 +68,11 @@ class FileManifestHandler(private val peerHandler: PeerHandler) extends Actor {
 object FileManifestHandler {
   abstract class Request extends controller.Request
 
-  case object FileManifestRequest extends FileManifestHandler.Request {
-    override def expectsResponse = true
-  }
+  case object FileManifestRequest extends FileManifestHandler.Request
 
   case object SleepRequest extends FileManifestHandler.Request
 
   case object WakeRequest extends FileManifestHandler.Request
+
+  def props = Props[FileManifestHandler]
 }
