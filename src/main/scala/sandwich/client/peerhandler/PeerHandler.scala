@@ -66,10 +66,10 @@ class PeerHandler extends Actor {
       println("PingRespondedNotification")
     }
 
-    case ActorIdentity(message, refOption) => for(ref <- refOption) {
+    case ref: ActorRef => {
       context.watch(ref)
       subscribers += ref
-      println(message)
+      println(ref)
     }
 
     case Terminated(ref) => {

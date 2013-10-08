@@ -27,8 +27,8 @@ class Server(private val peerHandler: ActorRef, private val directoryWatcher: Ac
   private val fileIndex = Agent[FileIndex](FileIndex(Set[FileItem]()))
 
   override def preStart {
-    peerHandler ! Identify("Server")
-    directoryWatcher ! Identify("Server")
+    peerHandler ! self
+    directoryWatcher ! self
     println(Utils.localIp.toString + ":" + Utils.portHash(Utils.localIp))
     server.createContext("/ping", new PingHandler)
     server.createContext("/peerlist", new PeerListHandler)

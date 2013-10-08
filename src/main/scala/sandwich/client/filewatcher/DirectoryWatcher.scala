@@ -45,9 +45,10 @@ class DirectoryWatcher(val rootDirectory: Path) extends Actor {
       subscribers.foreach(_ ! fileIndex)
       println(fileIndex)
     }
-    case ActorIdentity(_, actorOption) => actorOption.foreach {
-      actor => watch(actor)
+    case actor: ActorRef => {
+      context.watch(actor)
       subscribers += actor
+      println(actor)
     }
     case Terminated(actorRef) => subscribers -= actorRef
   }

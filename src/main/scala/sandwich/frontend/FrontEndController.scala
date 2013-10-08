@@ -49,7 +49,7 @@ class FrontEndController {
 
 private class FrontEndActor(private val fileManifestAgent: Agent[FileManifest]) extends Actor {
   override def preStart() {
-    context.actorSelection("/user/controller/filemanifesthandler") ! Identify("FrontEnd")
+    context.actorSelection("/user/controller/filemanifesthandler") ! self
   }
 
   override def receive = {

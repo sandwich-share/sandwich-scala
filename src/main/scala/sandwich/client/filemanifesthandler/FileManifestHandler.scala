@@ -24,7 +24,7 @@ class FileManifestHandler(private val peerHandler: ActorRef) extends Actor {
   private val manifestMap = Map[Peer, FileIndex]()
 
   override def preStart() {
-    peerHandler ! Identify("FileManifestHandler")
+    peerHandler ! self
   }
 
   override def receive = {
@@ -34,10 +34,10 @@ class FileManifestHandler(private val peerHandler: ActorRef) extends Actor {
       subscribers.foreach(_ ! fileManifest)
       println("Received peerset")
     }
-    case ActorIdentity(message, ref) => for(actor <- ref) {
+    case actor: ActorRef => {
       context.watch(actor)
       subscribers += actor
-      println(message)
+      println(actor)
     }
     case Terminated(actor) => {
       context.unwatch(actor)
