@@ -1,23 +1,17 @@
 package sandwich.server
 
 import java.net.{URI, InetSocketAddress}
-import sandwich.utils.{Settings, Utils}
 import com.sun.net.httpserver.{HttpExchange, HttpHandler, HttpServer}
 import java.io._
-import sandwich.client.peerhandler.PeerHandler
-import sandwich.client.filewatcher.DirectoryWatcher
-import java.nio.file.{Paths, Files, Path}
+import java.nio.file.{Paths, Path}
 import sandwich.client.peer.Peer
 import java.util.Date
 import sandwich.client.fileindex.{FileItem, FileIndex}
 import scala.io.Source
-import akka.pattern.ask
-import scala.actors.Future
 import sandwich.utils._
-import akka.actor.{Identify, Props, Actor, ActorSelection}
-import sandwich.client.filewatcher.DirectoryWatcher.FileHashRequest
-import scala.concurrent.duration.Duration
+import akka.actor._
 import akka.agent.Agent
+import akka.actor.Identify
 
 /**
  * Created with IntelliJ IDEA.
@@ -26,22 +20,21 @@ import akka.agent.Agent
  * Time: 4:30 PM
  * To change this template use File | Settings | File Templates.
    */
-class Server extends Actor {
+class Server(private val peerHandler: ActorRef, private val directoryWatcher: ActorRef) extends Actor {
   import context._
   private val server = HttpServer.create(new InetSocketAddress(Utils.portHash(Utils.localIp)), 100)
   private val peerSet = Agent[Set[Peer]](Set[Peer]())
   private val fileIndex = Agent[FileIndex](FileIndex(Set[FileItem]()))
-  private val peerHandler = context.actorSelection("/user/peerhandler")
-  peerHandler ! Identify("Hi")
-  context.actorSelection("/user/directorywatcher") ! Identify("Hi")
 
   override def preStart {
+    peerHandler ! Identify("Server")
+    directoryWatcher ! Identify("Server")
     println(Utils.localIp.toString + ":" + Utils.portHash(Utils.localIp))
     server.createContext("/ping", new PingHandler)
     server.createContext("/peerlist", new PeerListHandler)
     server.createContext("/fileindex", new FileIndexHandler)
     server.createContext("/files", new FileHandler(Paths.get(Settings.getSettings.sandwichPath)))
-    server.start
+    server.start()
   }
 
   override def postStop {
@@ -127,5 +120,5 @@ class Server extends Actor {
 }
 
 object Server {
-  def props = Props[Server]
+  def props(peerHandler: ActorRef, directoryWatcher: ActorRef) = Props(classOf[Server], peerHandler, directoryWatcher)
 }

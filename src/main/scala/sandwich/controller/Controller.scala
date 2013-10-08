@@ -21,10 +21,10 @@ import scala.concurrent.ExecutionContext.Implicits.global
  */
 class Controller extends Actor {
   private val settings = Settings.getSettings
-  private val peerHandler = context.actorOf(PeerHandler.props, "peerhandler")
-  private val directoryWatcher = context.actorOf(DirectoryWatcher.props(Paths.get(settings.sandwichPath)), "directorywatcher")
-  private val fileManifestHandler = context.actorOf(FileManifestHandler.props, "filemanifesthandler")
-  private val server = context.actorOf(Server.props, "server")
+  val peerHandler = context.actorOf(PeerHandler.props, "peerhandler")
+  val directoryWatcher = context.actorOf(DirectoryWatcher.props(Paths.get(settings.sandwichPath)), "directorywatcher")
+  val fileManifestHandler = context.actorOf(FileManifestHandler.props(peerHandler), "filemanifesthandler")
+  val server = context.actorOf(Server.props(peerHandler, directoryWatcher), "server")
 
   override def postStop {
     for(peerSet <- peerHandler ? PeerHandler.PeerSetRequest) {
@@ -36,7 +36,6 @@ class Controller extends Actor {
   override def receive = {
     case request: PeerHandler.Request => peerHandler forward request
     case request: DirectoryWatcher.Request => directoryWatcher forward request
-    case request: FileManifestHandler.Request => fileManifestHandler forward request
   }
 }
 

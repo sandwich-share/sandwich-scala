@@ -45,21 +45,31 @@ class PeerHandler extends Actor {
   }
 
   override def receive = {
-    case unvisitedIp: InetAddress => unvisitedPeers.send(_ += unvisitedIp)
-
-    case PeerSetRequest => sender ! peerSetAgent()
-
-    case EmptyPeerSetNotification => {
-      println("Peerlist is empty")
-      new Thread(PingHandler).start()
+    case unvisitedIp: InetAddress => {
+      unvisitedPeers.send(_ += unvisitedIp)
+      println("Received unvisited IP: " + unvisitedIp)
     }
 
-    case PingRespondedNotification => new Thread(PeerHandlerCore).start()
+    case newPeerSet: Set[Peer] => {
+      peerSetAgent.send(newPeerSet)
+      subscribers.foreach(_ ! newPeerSet)
+      println("New peer set: " + newPeerSet)
+    }
 
-    case ActorIdentity(_, refOption) => for(ref <- refOption) {
+    case EmptyPeerSetNotification => {
+      new Thread(PingHandler).start()
+      println("EmptyPeerSetNotification")
+    }
+
+    case PingRespondedNotification => {
+      new Thread(PeerHandlerCore).start()
+      println("PingRespondedNotification")
+    }
+
+    case ActorIdentity(message, refOption) => for(ref <- refOption) {
       context.watch(ref)
       subscribers += ref
-      println(ref)
+      println(message)
     }
 
     case Terminated(ref) => {
@@ -72,7 +82,7 @@ class PeerHandler extends Actor {
     private val running = Agent[Boolean](true)
     private var peerMap = mutable.Map[InetAddress, Peer]() ++ peerSetAgent().map(peer => (peer.IP, peer)).toMap[InetAddress, Peer]
     private var deadPeers = mutable.Map[InetAddress, Date]()
-    
+
     def shutdown() {
       running.send(false) // Ends thread execution at next iteration.
     }
@@ -137,13 +147,13 @@ class PeerHandler extends Actor {
       peerMap ++= toPeerMap(notInDeadPeers)
       peerMap ++= toPeerMap(inPeerMap.filter(peer => peer.LastSeen.after(peerMap(peer.IP).LastSeen)))
 
-      peerSetAgent.send(peerMap.values.toSet[Peer])
+      self ! peerMap.values.toSet[Peer]
     }
 
     private def toPeerMap(peerSet: Set[Peer]): Map[InetAddress, Peer] = peerSet.map(peer => (peer.IP, peer)).toMap[InetAddress, Peer]
   }
 
-  object PingHandler extends Runnable {
+  private object PingHandler extends Runnable {
     private val running = Agent[Boolean](true)
 
     def shutdown() {

@@ -4,10 +4,7 @@ import sandwich.client.peer.Peer
 import sandwich.client.fileindex.FileIndex
 import scala.collection.mutable.Map
 import sandwich.client.clientcoms.getutilities._
-import sandwich.client.filemanifesthandler.FileManifestHandler.FileManifestRequest
-import sandwich.controller
 import akka.actor._
-import akka.agent.Agent
 import scala.collection.{immutable, mutable}
 import akka.actor.ActorIdentity
 import scala.Some
@@ -20,32 +17,27 @@ import akka.actor.Identify
  * Time: 10:51 AM
  * To change this template use File | Settings | File Templates.
  */
-class FileManifestHandler extends Actor {
-  import context._
+class FileManifestHandler(private val peerHandler: ActorRef) extends Actor {
   private var fileManifest = new FileManifest(immutable.Map[Peer, FileIndex]())
-  private val isRunning = Agent[Boolean](true)
-  private val mostRecentPeerSet = Agent[Set[Peer]](Set[Peer]())
+  private var mostRecentPeerSet = Set[Peer]()
   private val subscribers = mutable.Set[ActorRef]()
-  context.actorSelection("/user/peerhandler") ! Identify()
+  private val manifestMap = Map[Peer, FileIndex]()
 
-  override def preStart {
-    FileManifestHandlerCore.start
-  }
-
-  override def postStop {
-    isRunning.send(false)
+  override def preStart() {
+    peerHandler ! Identify("FileManifestHandler")
   }
 
   override def receive = {
-    case newManifest: FileManifest => {
-      fileManifest = newManifest
+    case peerSet: Set[Peer] => {
+      mostRecentPeerSet = peerSet
+      updateManifest()
       subscribers.foreach(_ ! fileManifest)
+      println("Received peerset")
     }
-    case peerSet: Set[Peer] => mostRecentPeerSet.send(peerSet)
-    case FileManifestRequest => sender ! fileManifest
-    case ActorIdentity(_, ref) => for(actor <- ref) {
+    case ActorIdentity(message, ref) => for(actor <- ref) {
       context.watch(actor)
       subscribers += actor
+      println(message)
     }
     case Terminated(actor) => {
       context.unwatch(actor)
@@ -53,41 +45,26 @@ class FileManifestHandler extends Actor {
     }
   }
 
-  private object FileManifestHandlerCore extends Thread {
-    val manifestMap = Map[Peer, FileIndex]()
-
-    override def run {
-      while(isRunning()) {
-        for(peer <- mostRecentPeerSet()) {
-          if(manifestMap.contains(peer)) {
-            if(manifestMap(peer).IndexHash != peer.IndexHash) {
-              getFileIndex(peer.IP) match {
-                case Some(fileIndex) => manifestMap(peer) = fileIndex
-                case None =>
-              }
-            }
-          } else {
-            getFileIndex(peer.IP) match {
-              case Some(fileIndex) => manifestMap(peer) = fileIndex
-              case None =>
-            }
+  def updateManifest() {
+    for(peer <- mostRecentPeerSet) {
+      if(manifestMap.contains(peer)) {
+        if(manifestMap(peer).IndexHash != peer.IndexHash) {
+          getFileIndex(peer.IP) match {
+            case Some(fileIndex) => manifestMap(peer) = fileIndex
+            case None =>
           }
         }
-        self ! new FileManifest(manifestMap.toMap)
+      } else {
+        getFileIndex(peer.IP) match {
+          case Some(fileIndex) => manifestMap(peer) = fileIndex
+          case None =>
+        }
       }
     }
+    fileManifest = new FileManifest(manifestMap.toMap)
   }
-
 }
 
 object FileManifestHandler {
-  abstract class Request extends controller.Request
-
-  case object FileManifestRequest extends FileManifestHandler.Request
-
-  case object SleepRequest extends FileManifestHandler.Request
-
-  case object WakeRequest extends FileManifestHandler.Request
-
-  def props = Props[FileManifestHandler]
+  def props(peerHandler: ActorRef) = Props(classOf[FileManifestHandler], peerHandler)
 }

@@ -4,12 +4,13 @@ import sandwich.client.clientcoms.getutilities.getFile
 import sandwich.utils.{Settings, toPath}
 import akka.agent.Agent
 import akka.actor.ActorDSL._
-import akka.actor.{Identify, Props, Actor, ActorSystem}
+import akka.actor._
 import sandwich.client.filemanifesthandler.FileManifest
 import sandwich.client.fileindex.{FileItem, FileIndex}
 import sandwich.client.peer.Peer
 import scala.concurrent.ExecutionContext.Implicits.global
 import sandwich.controller.Controller
+import akka.actor.Identify
 
 /**
  * Sandwich
@@ -21,7 +22,7 @@ import sandwich.controller.Controller
 // We wrap all communication to anything related to the server to make the transition to a separate process easier.
 class FrontEndController {
   val system = ActorSystem("SandwichSystem")
-  val controller = system.actorOf(Controller.props)
+  val controller = system.actorOf(Controller.props, "controller")
   val fileManifestAgent = Agent[FileManifest](new FileManifest(Map[Peer, FileIndex]()))
   system.actorOf(Props(classOf[FrontEndActor], fileManifestAgent))
 
@@ -40,10 +41,16 @@ class FrontEndController {
   def setSettings(settings: Settings) {
     Settings.writeSettings(settings)
   }
+
+  def shutdown() {
+    system.shutdown()
+  }
 }
 
 private class FrontEndActor(private val fileManifestAgent: Agent[FileManifest]) extends Actor {
-  context.actorSelection("/user/filemanifesthandler") ! Identify()
+  override def preStart() {
+    context.actorSelection("/user/controller/filemanifesthandler") ! Identify("FrontEnd")
+  }
 
   override def receive = {
     case fileManifest: FileManifest => {
