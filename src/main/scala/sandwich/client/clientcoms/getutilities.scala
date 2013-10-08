@@ -8,6 +8,7 @@ import java.nio.file.{Files, Path}
 import java.io.{FileWriter, InputStreamReader}
 import sandwich.utils.ChunkyWriter
 import scala.concurrent.future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
  * Created with IntelliJ IDEA.

@@ -10,6 +10,7 @@ import sandwich.controller
 import akka.actor.{Props, Actor}
 import akka.pattern.ask
 import sandwich.utils._
+import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,11 +20,11 @@ import sandwich.utils._
  * To change this template use File | Settings | File Templates.
  */
 class Controller extends Actor {
-  val settings = Settings.getSettings
-  val peerHandler = context.actorOf(PeerHandler.props, "peerhandler")
-  val directoryWatcher = context.actorOf(DirectoryWatcher.props(Paths.get(settings.sandwichPath)), "directorywatcher")
-  val fileManifestHandler = context.actorOf(FileManifestHandler.props, "filemanifesthandler")
-  val server = context.actorOf(Server.props, "server")
+  private val settings = Settings.getSettings
+  private val peerHandler = context.actorOf(PeerHandler.props, "peerhandler")
+  private val directoryWatcher = context.actorOf(DirectoryWatcher.props(Paths.get(settings.sandwichPath)), "directorywatcher")
+  private val fileManifestHandler = context.actorOf(FileManifestHandler.props, "filemanifesthandler")
+  private val server = context.actorOf(Server.props, "server")
 
   override def postStop {
     for(peerSet <- peerHandler ? PeerHandler.PeerSetRequest) {

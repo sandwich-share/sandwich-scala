@@ -4,11 +4,11 @@ import sandwich.client.peer.Peer
 import sandwich.client.fileindex.FileIndex
 import scala.collection.mutable.Map
 import sandwich.client.clientcoms.getutilities._
-import sandwich.client.filemanifesthandler.FileManifestHandler.{WakeRequest, SleepRequest, FileManifestRequest}
+import sandwich.client.filemanifesthandler.FileManifestHandler.FileManifestRequest
 import sandwich.controller
-import sandwich.client.peerhandler.PeerHandler
 import akka.actor.{Props, Actor, Identify}
 import akka.agent.Agent
+import scala.collection.immutable
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,10 +19,10 @@ import akka.agent.Agent
  */
 class FileManifestHandler extends Actor {
   import context._
-  private var fileManifest = new FileManifest(Map[Peer, FileIndex]())
+  private var fileManifest = new FileManifest(immutable.Map[Peer, FileIndex]())
   private val isRunning = Agent[Boolean](true)
   private val mostRecentPeerSet = Agent[Set[Peer]](Set[Peer]())
-  context.actorSelection("/user/peerhandler") ! Identify("Hi")
+  context.actorSelection("/user/peerhandler") ! Identify()
 
   override def preStart {
     FileManifestHandlerCore.start
@@ -58,7 +58,7 @@ class FileManifestHandler extends Actor {
             }
           }
         }
-        self ! new FileManifest(manifestMap)
+        self ! new FileManifest(manifestMap.toMap)
       }
     }
   }

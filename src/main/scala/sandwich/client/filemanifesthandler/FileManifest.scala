@@ -1,6 +1,5 @@
 package sandwich.client.filemanifesthandler
 
-import scala.collection.{immutable, mutable}
 import sandwich.client.fileindex.{FileItem, FileIndex}
 import sandwich.client.peer.Peer
 
@@ -11,9 +10,9 @@ import sandwich.client.peer.Peer
  * Time: 6:09 PM
  * To change this template use File | Settings | File Templates.
  */
-class FileManifest(manifestMap: mutable.Map[Peer, FileIndex]) {
+class FileManifest(manifestMap: Map[Peer, FileIndex]) {
 
-  lazy val filePeerMap: immutable.Map[FileItem, Peer] = {
+  lazy val filePeerMap: Map[FileItem, Peer] = {
     manifestMap.map{ case(peer, index) => {
       for { item <- index.List } yield (item, peer) }.toMap[FileItem, Peer]
     }.fold(Map[FileItem, Peer]())((left, right) => left ++ right)

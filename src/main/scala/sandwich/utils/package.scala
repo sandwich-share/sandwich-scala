@@ -1,6 +1,7 @@
 package sandwich
 
 import akka.util.Timeout
+import java.nio.file.{Paths, Path}
 
 /**
  * Sandwich
@@ -10,5 +11,6 @@ import akka.util.Timeout
  */
 package object utils {
   implicit val timeout = Timeout(5000)
+  implicit def toPath(stringPath: String): Path = Paths.get(stringPath)
   case class SandwichInitializationException(val message: String) extends Exception
 }
