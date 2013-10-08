@@ -36,7 +36,10 @@ package object getutilities {
     val reader = get(address, "/peerlist")
     Option(Peer.gson.fromJson(reader.mkString, classOf[Array[Peer]]).toSet[Peer])
   } catch {
-    case _: Throwable => Option.empty[Set[Peer]]
+    case error: Throwable => {
+      println(error)
+      Option.empty[Set[Peer]]
+    }
   }
 
   def getFileIndex(address: InetAddress): Option[FileIndex] = try {

@@ -31,13 +31,14 @@ class PeerHandler extends Actor {
   override def preStart() {
     Utils.getCachedPeerIndex match {
       case Some(startingPeers) => peerSetAgent.send(startingPeers)
-      case None => throw SandwichInitializationException("Cached peerlist is empty.")
+      case None => throw new SandwichInitializationException("Cached peerlist is empty.")
     }
     new Thread(PeerHandlerCore).start()
   }
 
   override def postStop() {
     PeerHandlerCore.shutdown()
+    PingHandler.shutdown()
     if(!peerSetAgent().isEmpty) {
       Utils.cachePeerIndex(peerSetAgent())
     }
@@ -48,7 +49,10 @@ class PeerHandler extends Actor {
 
     case PeerSetRequest => sender ! peerSetAgent()
 
-    case EmptyPeerSetNotification => new Thread(PingHandler).start()
+    case EmptyPeerSetNotification => {
+      println("Peerlist is empty")
+      new Thread(PingHandler).start()
+    }
 
     case PingRespondedNotification => new Thread(PeerHandlerCore).start()
 
@@ -97,11 +101,13 @@ class PeerHandler extends Actor {
           getPeerList(peer) match {
             case Some(peerList) => {
               update(peerList)
+              println(peerList)
               return true
             }
             case None => {
               peerMap -= peer
               deadPeers(peer) = new Date
+              println("Removed: " + peer)
             }
           }
         }
@@ -155,7 +161,6 @@ class PeerHandler extends Actor {
         }
       }
       running.send(true)
-      new Thread(PeerHandlerCore).start()
     }
   }
 

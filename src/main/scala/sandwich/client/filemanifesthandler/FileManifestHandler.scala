@@ -6,9 +6,12 @@ import scala.collection.mutable.Map
 import sandwich.client.clientcoms.getutilities._
 import sandwich.client.filemanifesthandler.FileManifestHandler.FileManifestRequest
 import sandwich.controller
-import akka.actor.{Props, Actor, Identify}
+import akka.actor._
 import akka.agent.Agent
-import scala.collection.immutable
+import scala.collection.{immutable, mutable}
+import akka.actor.ActorIdentity
+import scala.Some
+import akka.actor.Identify
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,6 +25,7 @@ class FileManifestHandler extends Actor {
   private var fileManifest = new FileManifest(immutable.Map[Peer, FileIndex]())
   private val isRunning = Agent[Boolean](true)
   private val mostRecentPeerSet = Agent[Set[Peer]](Set[Peer]())
+  private val subscribers = mutable.Set[ActorRef]()
   context.actorSelection("/user/peerhandler") ! Identify()
 
   override def preStart {
@@ -33,9 +37,20 @@ class FileManifestHandler extends Actor {
   }
 
   override def receive = {
-    case newManifest: FileManifest => fileManifest = newManifest
+    case newManifest: FileManifest => {
+      fileManifest = newManifest
+      subscribers.foreach(_ ! fileManifest)
+    }
     case peerSet: Set[Peer] => mostRecentPeerSet.send(peerSet)
     case FileManifestRequest => sender ! fileManifest
+    case ActorIdentity(_, ref) => for(actor <- ref) {
+      context.watch(actor)
+      subscribers += actor
+    }
+    case Terminated(actor) => {
+      context.unwatch(actor)
+      subscribers -= actor
+    }
   }
 
   private object FileManifestHandlerCore extends Thread {

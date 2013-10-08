@@ -13,7 +13,9 @@ import java.lang.reflect.Type
  * Time: 4:50 AM
  * To change this template use File | Settings | File Templates.
  */
-case class FileItem(var FileName: String, var Size: Long, var CheckSum: Int)
+case class FileItem(var FileName: String, var Size: Long, var CheckSum: Int) {
+  def toArray(): Array[Any] = Array(FileName, Size)
+}
 
 object FileItem {
   def gsonBuilder: GsonBuilder = new GsonBuilder

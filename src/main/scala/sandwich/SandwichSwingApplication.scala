@@ -2,7 +2,7 @@ package sandwich
 
 import scala.swing.{Frame, SimpleSwingApplication}
 import sandwich.controller.Controller
-import sandwich.frontend.SandwichMainFrame
+import sandwich.frontend.{FrontEndController, SandwichMainFrame}
 import javax.swing.UIManager
 
 /**
@@ -12,8 +12,8 @@ import javax.swing.UIManager
  * Time: 3:10 PM
  * To change this template use File | Settings | File Templates.
  */
-class SandwichSwingApplication extends SimpleSwingApplication {
-  private val controller = new Controller
+object SandwichSwingApplication extends SimpleSwingApplication {
+  val controller = new FrontEndController
 
   try {
     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName)

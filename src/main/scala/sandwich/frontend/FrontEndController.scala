@@ -4,7 +4,7 @@ import sandwich.client.clientcoms.getutilities.getFile
 import sandwich.utils.{Settings, toPath}
 import akka.agent.Agent
 import akka.actor.ActorDSL._
-import akka.actor.{Props, Actor, ActorSystem}
+import akka.actor.{Identify, Props, Actor, ActorSystem}
 import sandwich.client.filemanifesthandler.FileManifest
 import sandwich.client.fileindex.{FileItem, FileIndex}
 import sandwich.client.peer.Peer
@@ -23,7 +23,7 @@ class FrontEndController {
   val system = ActorSystem("SandwichSystem")
   val controller = system.actorOf(Controller.props)
   val fileManifestAgent = Agent[FileManifest](new FileManifest(Map[Peer, FileIndex]()))
-  system.actorOf(Props[FrontEndActor])
+  system.actorOf(Props(classOf[FrontEndActor], fileManifestAgent))
 
   def search(searchTerm: String): Set[FileItem] = {
     return fileManifestAgent().search(FileManifest.simpleSearch(searchTerm))
@@ -40,12 +40,15 @@ class FrontEndController {
   def setSettings(settings: Settings) {
     Settings.writeSettings(settings)
   }
+}
 
-  class FrontEndActor extends Actor {
-    context.actorSelection("/user/peerhandler")
+private class FrontEndActor(private val fileManifestAgent: Agent[FileManifest]) extends Actor {
+  context.actorSelection("/user/filemanifesthandler") ! Identify()
 
-    override def receive = {
-      case fileManifest: FileManifest => fileManifestAgent.send(fileManifest)
+  override def receive = {
+    case fileManifest: FileManifest => {
+      println(fileManifest.filePeerMap.head)
+      fileManifestAgent.send(fileManifest)
     }
   }
 }

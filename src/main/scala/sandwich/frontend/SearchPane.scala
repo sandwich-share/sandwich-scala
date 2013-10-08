@@ -14,18 +14,20 @@ import scala.Array
  * Date: 9/24/13
  * Time: 4:09 AM
  */
-class SearchPane extends BoxPanel(Orientation.Vertical) {
+class SearchPane(private val controller: FrontEndController) extends BoxPanel(Orientation.Vertical) {
   private val searchBox = new TextField
   searchBox.minimumSize = new Dimension(200, 30)
   searchBox.preferredSize = new Dimension(200, 30)
   searchBox.maximumSize = new Dimension(200, 30)
   private val scrollPane = new ScrollPane
+  private val searchButton = new Button("Search: ")
+  searchButton.action = Search
 
   contents += Swing.VStrut(20)
   contents += new BoxPanel(Orientation.Horizontal) {
     contents += Swing.HGlue
     contents += new BoxPanel(Orientation.Horizontal) {
-      contents += new Button("Search: ")
+      contents += searchButton
       contents += searchBox
       minimumSize = new Dimension(300, 30)
     }
@@ -33,4 +35,11 @@ class SearchPane extends BoxPanel(Orientation.Vertical) {
   }
   contents += Swing.VStrut(20)
   contents += scrollPane
+
+  private object Search extends Action("Search") {
+    override def apply() {
+      val results = controller.search(searchBox.text)
+      scrollPane.contents = new Table(results.map(_.toArray()).toArray, Seq("File Path", "Size"))
+    }
+  }
 }

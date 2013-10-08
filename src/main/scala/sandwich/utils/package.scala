@@ -12,5 +12,5 @@ import java.nio.file.{Paths, Path}
 package object utils {
   implicit val timeout = Timeout(5000)
   implicit def toPath(stringPath: String): Path = Paths.get(stringPath)
-  case class SandwichInitializationException(val message: String) extends Exception
+  class SandwichInitializationException(val message: String) extends Exception
 }

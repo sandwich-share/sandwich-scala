@@ -12,11 +12,7 @@ import sandwich.client.peer.Peer
  */
 class FileManifest(manifestMap: Map[Peer, FileIndex]) {
 
-  lazy val filePeerMap: Map[FileItem, Peer] = {
-    manifestMap.map{ case(peer, index) => {
-      for { item <- index.List } yield (item, peer) }.toMap[FileItem, Peer]
-    }.fold(Map[FileItem, Peer]())((left, right) => left ++ right)
-  }
+  lazy val filePeerMap: Map[FileItem, Peer] = manifestMap.flatMap{ case(peer, index) => index.List.map(item => (item, peer)).toMap }
 
   def search(filter: String => Boolean): Set[FileItem] = filePeerMap.filter{ case(item, _) => filter(item.FileName) }.keys.toSet[FileItem]
 }
