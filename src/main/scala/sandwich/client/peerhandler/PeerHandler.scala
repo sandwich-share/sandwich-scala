@@ -33,6 +33,7 @@ class PeerHandler extends Actor {
       case Some(startingPeers) => peerSetAgent.send(startingPeers)
       case None => throw new SandwichInitializationException("Cached peerlist is empty.")
     }
+    PeerHandlerCore.populatePeerMap(peerSetAgent())
     new Thread(PeerHandlerCore).start()
   }
 
@@ -62,6 +63,7 @@ class PeerHandler extends Actor {
     }
 
     case PingRespondedNotification => {
+      PeerHandlerCore.populatePeerMap(peerSetAgent())
       new Thread(PeerHandlerCore).start()
       println("PingRespondedNotification")
     }
@@ -80,11 +82,15 @@ class PeerHandler extends Actor {
 
   private object PeerHandlerCore extends Thread {
     private val running = Agent[Boolean](true)
-    private var peerMap = mutable.Map[InetAddress, Peer]() ++ peerSetAgent().map(peer => (peer.IP, peer)).toMap[InetAddress, Peer]
+    private var peerMap = mutable.Map[InetAddress, Peer]()
     private var deadPeers = mutable.Map[InetAddress, Date]()
 
     def shutdown() {
       running.send(false) // Ends thread execution at next iteration.
+    }
+
+    def populatePeerMap(peerSet: Set[Peer]) {
+      peerMap ++= peerSet.map(peer => (peer.IP, peer)).toMap[InetAddress, Peer]
     }
 
     override def run() {
@@ -162,12 +168,14 @@ class PeerHandler extends Actor {
 
     override def run() {
       while (running()) {
+        println("Ping iteration starting, " + new Date + "...")
         for (peer <- peerSetAgent()) {
+          println("Pinging: " + peer)
           if(ping(peer.IP)) {
             self ! PingRespondedNotification
             return
           }
-          Thread.sleep(30000)
+          Thread.sleep(3000)
         }
       }
       running.send(true)

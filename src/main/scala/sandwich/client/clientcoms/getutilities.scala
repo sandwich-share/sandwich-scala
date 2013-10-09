@@ -6,7 +6,7 @@ import scala.io.BufferedSource
 import sandwich.client.fileindex.FileIndex
 import java.nio.file.{Files, Path}
 import java.io.{FileWriter, InputStreamReader}
-import sandwich.utils.ChunkyWriter
+import sandwich.utils.{Utils, ChunkyWriter}
 import scala.concurrent.future
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -19,7 +19,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
  */
 package object getutilities {
   private def get(address: InetAddress, extension: String): BufferedSource = {
-    val url = new URL(address.getHostAddress + extension)
+    val url = new URL("http://" + address.getHostAddress + ":" + Utils.portHash(address) + extension)
+    println(url)
     val connection = url.openConnection.asInstanceOf[HttpURLConnection]
     new BufferedSource(connection.getInputStream)
   }
@@ -27,26 +28,34 @@ package object getutilities {
   def ping(address: InetAddress): Boolean = try {
     val reader = get(address, "/ping")
     val response = reader.mkString
-    response == "pong"
+    reader.close()
+    response == "pong\n"
   } catch {
-    case _: Throwable => false
+    case error: Throwable => {
+      println(error)
+      false
+    }
   }
 
   def getPeerList(address: InetAddress): Option[Set[Peer]] = try {
     val reader = get(address, "/peerlist")
-    Option(Peer.gson.fromJson(reader.mkString, classOf[Array[Peer]]).toSet[Peer])
+    val result = Option(Peer.gson.fromJson(reader.mkString, classOf[Array[Peer]]).toSet[Peer])
+    reader.close()
+    return result
   } catch {
     case error: Throwable => {
       println(error)
-      Option.empty[Set[Peer]]
+      None
     }
   }
 
   def getFileIndex(address: InetAddress): Option[FileIndex] = try {
     val reader = get(address, "/fileindex")
-    Option(FileIndex.gson.fromJson(reader.mkString, classOf[FileIndex]))
+    val result = Option(FileIndex.gson.fromJson(reader.mkString, classOf[FileIndex]))
+    reader.close()
+    return result
   } catch {
-    case _: Throwable => Option.empty
+    case _: Throwable => None
   }
 
   def getFile(address: InetAddress, path: Path) {
