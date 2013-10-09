@@ -12,7 +12,7 @@ import sandwich.utils.{DateDeserializer, DateSerializer}
  * Time: 4:31 AM
  * To change this template use File | Settings | File Templates.
  */
-case class Peer(var IP: InetAddress, var IndexHash: Int, var LastSeen: Date) {
+case class Peer(var IP: InetAddress, var IndexHash: Long, var LastSeen: Date) {
 
   override def equals(value: Any) = if(value.isInstanceOf[Peer]) {
     value.asInstanceOf[Peer].IP == IP

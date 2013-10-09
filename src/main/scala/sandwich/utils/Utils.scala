@@ -9,6 +9,8 @@ import com.google.gson._
 import java.util.Date
 import java.lang.reflect.Type
 import java.security.MessageDigest
+import scala.concurrent.{Future, future}
+import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
  * Created with IntelliJ IDEA.
@@ -63,16 +65,10 @@ object Utils {
     case _: Throwable => InetAddress.getLocalHost
   }
 
-  def getCachedPeerIndex: Option[Set[Peer]] = try {
+  def getCachedPeerIndex(): Future[Set[Peer]] = future {
     val file = Source.fromFile(peerIndexPath)
     val peerSet = Peer.gson.fromJson(file.mkString, classOf[Array[Peer]])
-    if(peerSet.length > 0) {
-      return Some(peerSet.toSet[Peer])
-    } else {
-      return None
-    }
-  } catch {
-    case _: Throwable => return None
+    peerSet.toSet[Peer]
   }
 
   def cachePeerIndex(peerSet: Set[Peer]) {

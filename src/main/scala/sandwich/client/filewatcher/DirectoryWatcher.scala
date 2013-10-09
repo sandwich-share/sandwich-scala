@@ -29,11 +29,11 @@ class DirectoryWatcher(val rootDirectory: Path) extends Actor {
   private val isRunning = Agent[Boolean](true)
   private val subscribers = mutable.Set[ActorRef]()
 
-  override def preStart {
-    DirectoryWatcherCore.start
+  override def preStart() {
+    DirectoryWatcherCore.start()
   }
 
-  override def postStop {
+  override def postStop() {
     isRunning.send(false) // Kill the DirectoryWatcherCore.
   }
 
@@ -43,7 +43,6 @@ class DirectoryWatcher(val rootDirectory: Path) extends Actor {
     case newFileIndex: FileIndex => {
       fileIndex = newFileIndex
       subscribers.foreach(_ ! fileIndex)
-      println(fileIndex)
     }
     case actor: ActorRef => {
       context.watch(actor)

@@ -29,9 +29,12 @@ class PeerHandler extends Actor {
   private val unvisitedPeers = Agent[mutable.Set[InetAddress]](mutable.Set[InetAddress]())
 
   override def preStart() {
-    Utils.getCachedPeerIndex match {
-      case Some(startingPeers) => peerSetAgent.send(startingPeers)
-      case None => throw new SandwichInitializationException("Cached peerlist is empty.")
+    val peerIndexFuture = Utils.getCachedPeerIndex()
+    peerIndexFuture onSuccess {
+      case startingPeers: Set[Peer] => peerSetAgent.send(startingPeers)
+    }
+    peerIndexFuture onFailure {
+      case error => throw error
     }
     PeerHandlerCore.populatePeerMap(peerSetAgent())
     new Thread(PeerHandlerCore).start()

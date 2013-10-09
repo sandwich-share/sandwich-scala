@@ -5,7 +5,7 @@ import sandwich.client.peer.Peer
 import scala.io.BufferedSource
 import sandwich.client.fileindex.FileIndex
 import java.nio.file.{Paths, Files, Path}
-import java.io.{File, FileWriter, InputStreamReader}
+import java.io.{FileOutputStream, File, FileWriter, InputStreamReader}
 import sandwich.utils.{Settings, Utils, ChunkyWriter}
 import scala.concurrent.future
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -64,7 +64,11 @@ package object getutilities {
     try {
       val url = new URI("http", null, address.getHostAddress, Utils.portHash(address), "/files/" + path, null, null).toURL
       val localPath = Paths.get(Settings.getSettings.sandwichPath + File.separator + path)
-      val connection = new InputStreamReader(url.openConnection.asInstanceOf[HttpURLConnection].getInputStream)
+      val connection = url.openConnection.asInstanceOf[HttpURLConnection]
+      connection.setConnectTimeout(10000)
+      connection.setReadTimeout(10000)
+      connection.connect()
+      val connectionReader = connection.getInputStream
       println("Requesting: " + url)
       val file = localPath.toFile
       val parentDir = file.getParentFile
@@ -74,12 +78,14 @@ package object getutilities {
       file.createNewFile()
       println("File exists: " + file.exists())
       println("Downloading file: " + localPath)
-      val fileWriter = new FileWriter(file)
+      val fileWriter = new FileOutputStream(file)
       val chunkyWriter = new ChunkyWriter(fileWriter)
+      println("Length of file: " + connection.getContentLengthLong)
       future {
-        chunkyWriter.write(connection)
+        chunkyWriter.write(connectionReader, connection.getContentLengthLong)
         fileWriter.close()
-        connection.close()
+        connectionReader.close()
+        println("Downloading complete")
       }
     } catch {
       case error: Throwable => println(error)

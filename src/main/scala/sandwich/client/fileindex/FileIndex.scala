@@ -22,7 +22,7 @@ object FileItem {
   def gson: Gson = gsonBuilder.create()
 }
 
-case class FileIndex(var IndexHash: Int, var TimeStamp: Date, var List: Set[FileItem])
+case class FileIndex(var IndexHash: Long, var TimeStamp: Date, var List: Set[FileItem])
 
 object FileIndex {
   def apply(fileList: Set[FileItem]): FileIndex = {
@@ -36,7 +36,7 @@ object FileIndex {
         crc.update(checksum >> i * 8)
       }
     }
-    FileIndex(crc.getValue.toInt, new Date, fileList)
+    FileIndex(crc.getValue, new Date, fileList)
   }
 
   def gson: Gson = {

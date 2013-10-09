@@ -92,9 +92,9 @@ class Server(private val peerHandler: ActorRef, private val directoryWatcher: Ac
   }
 
   private class FileHandler(root: Path) extends HttpHandler {
-    def getFileReader(uri: URI): FileReader = {
+    def getFile(uri: URI): File = {
       val path = uri.getPath.replaceFirst("/files/", "")
-      return new FileReader(root.resolve(path).toFile())
+      return root.resolve(path).toFile()
     }
 
     override def handle(exchange: HttpExchange) {
@@ -102,11 +102,12 @@ class Server(private val peerHandler: ActorRef, private val directoryWatcher: Ac
       Source.fromInputStream(exchange.getRequestBody).mkString
       exchange.getRequestBody.close()
       exchange.sendResponseHeaders(200, 0)
-      val file = getFileReader(exchange.getRequestURI)
-      val responseBody = new OutputStreamWriter(exchange.getResponseBody)
+      val file = getFile(exchange.getRequestURI)
+      val fileReader = new FileInputStream(file)
+      val responseBody = exchange.getResponseBody
       val chunkyWriter = new ChunkyWriter(responseBody)
-      chunkyWriter.write(file)
-      file.close()
+      chunkyWriter.write(fileReader, file.length)
+      fileReader.close()
       responseBody.close()
       exchange.close()
     }
