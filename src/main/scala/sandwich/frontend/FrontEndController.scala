@@ -54,7 +54,6 @@ private class FrontEndActor(private val fileManifestAgent: Agent[FileManifest]) 
 
   override def receive = {
     case fileManifest: FileManifest => {
-      println(fileManifest.filePeerMap.head)
       fileManifestAgent.send(fileManifest)
     }
   }

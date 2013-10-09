@@ -32,7 +32,6 @@ class FileManifestHandler(private val peerHandler: ActorRef) extends Actor {
       mostRecentPeerSet = peerSet
       updateManifest()
       subscribers.foreach(_ ! fileManifest)
-      println("Received peerset")
     }
     case actor: ActorRef => {
       context.watch(actor)

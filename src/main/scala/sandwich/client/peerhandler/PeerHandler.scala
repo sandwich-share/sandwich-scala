@@ -46,26 +46,20 @@ class PeerHandler extends Actor {
   }
 
   override def receive = {
-    case unvisitedIp: InetAddress => {
-      unvisitedPeers.send(_ += unvisitedIp)
-      println("Received unvisited IP: " + unvisitedIp)
-    }
+    case unvisitedIp: InetAddress => unvisitedPeers.send(_ += unvisitedIp)
 
     case newPeerSet: Set[Peer] => {
       peerSetAgent.send(newPeerSet)
       subscribers.foreach(_ ! newPeerSet)
-      println("New peer set: " + newPeerSet)
     }
 
     case EmptyPeerSetNotification => {
       new Thread(PingHandler).start()
-      println("EmptyPeerSetNotification")
     }
 
     case PingRespondedNotification => {
       PeerHandlerCore.populatePeerMap(peerSetAgent())
       new Thread(PeerHandlerCore).start()
-      println("PingRespondedNotification")
     }
 
     case ref: ActorRef => {
@@ -117,13 +111,11 @@ class PeerHandler extends Actor {
           getPeerList(peer) match {
             case Some(peerList) => {
               update(peerList)
-              println(peerList)
               return true
             }
             case None => {
               peerMap -= peer
               deadPeers(peer) = new Date
-              println("Removed: " + peer)
             }
           }
         }
@@ -168,9 +160,7 @@ class PeerHandler extends Actor {
 
     override def run() {
       while (running()) {
-        println("Ping iteration starting, " + new Date + "...")
         for (peer <- peerSetAgent()) {
-          println("Pinging: " + peer)
           if(ping(peer.IP)) {
             self ! PingRespondedNotification
             return

@@ -42,14 +42,8 @@ class Server(private val peerHandler: ActorRef, private val directoryWatcher: Ac
   }
 
   override def receive = {
-    case newPeerSet: Set[Peer] => {
-      peerSet.send(newPeerSet)
-      println(peerSet())
-    }
-    case newFileIndex: FileIndex => {
-      fileIndex.send(newFileIndex)
-      println(fileIndex())
-    }
+    case newPeerSet: Set[Peer] => peerSet.send(newPeerSet)
+    case newFileIndex: FileIndex => fileIndex.send(newFileIndex)
   }
 
   private def addPeer(exchange: HttpExchange) {

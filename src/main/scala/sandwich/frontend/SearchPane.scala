@@ -2,11 +2,16 @@ package sandwich.frontend
 
 import scala.swing._
 import java.awt.Dimension
-import scala.swing.event.EditDone
+import scala.swing.event.{ButtonClicked, EditDone}
 import sandwich.client.filemanifesthandler.FileManifest
 import sandwich.client.fileindex.FileItem
-import scala.swing.event.EditDone
 import scala.Array
+import javax.swing.table.{TableCellEditor, AbstractTableModel, TableCellRenderer}
+import javax.swing.{AbstractCellEditor, DefaultCellEditor, JButton, JTable}
+import java.awt
+import javax.swing.event.CellEditorListener
+import java.util.EventObject
+import java.awt.event.{ActionEvent, ActionListener}
 
 /**
  * Sandwich
@@ -38,8 +43,40 @@ class SearchPane(private val controller: FrontEndController) extends BoxPanel(Or
 
   private object Search extends Action("Search") {
     override def apply() {
-      val results = controller.search(searchBox.text)
-      scrollPane.contents = new Table(results.map(_.toArray()).toArray, Seq("File Path", "Size"))
+      val results = controller.search(searchBox.text).map(toTableItem(_)).toArray
+      val table = new JTable(new AbstractTableModel {
+        override def getRowCount: Int = results.length
+
+        override def getColumnCount: Int = 3
+
+        override def getValueAt(rowIndex: Int, columnIndex: Int): AnyRef = results(rowIndex)(columnIndex)
+
+        override def isCellEditable(row: Int, column: Int): Boolean = if (column == 2) true else false
+      })
+      val columnModel = table.getColumnModel()
+      columnModel.getColumn(1).setMaxWidth(200)
+      columnModel.getColumn(1).setPreferredWidth(200)
+      columnModel.getColumn(2).setMaxWidth(200)
+      columnModel.getColumn(2).setPreferredWidth(200)
+      columnModel.getColumn(2).setCellRenderer(new TableCellRenderer {
+        def getTableCellRendererComponent(table: JTable, value: scala.Any, isSelected: Boolean, hasFocus: Boolean, row: Int, column: Int): awt.Component = results(row)(column).asInstanceOf[JButton]
+      })
+      columnModel.getColumn(2).setCellEditor(new AbstractCellEditor() with TableCellEditor {
+        override def getCellEditorValue: AnyRef = new AnyRef
+
+        def getTableCellEditorComponent(table: JTable, value: scala.Any, isSelected: Boolean, row: Int, column: Int): awt.Component = results(row)(column).asInstanceOf[JButton]
+      })
+      scrollPane.contents = Component.wrap(table)
     }
+  }
+
+  private def toTableItem(fileItem: FileItem): Array[AnyRef] = {
+    val downloadButton = new JButton("Download")
+    downloadButton.addActionListener(new ActionListener {
+      def actionPerformed(e: ActionEvent) {
+        controller.download(fileItem)
+      }
+    })
+    Array(fileItem.FileName, fileItem.Size.toString, downloadButton)
   }
 }

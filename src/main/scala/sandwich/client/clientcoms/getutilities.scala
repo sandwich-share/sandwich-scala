@@ -1,12 +1,12 @@
 package sandwich.client.clientcoms
 
-import java.net.{HttpURLConnection, URL, InetAddress}
+import java.net.{URI, HttpURLConnection, URL, InetAddress}
 import sandwich.client.peer.Peer
 import scala.io.BufferedSource
 import sandwich.client.fileindex.FileIndex
-import java.nio.file.{Files, Path}
-import java.io.{FileWriter, InputStreamReader}
-import sandwich.utils.{Utils, ChunkyWriter}
+import java.nio.file.{Paths, Files, Path}
+import java.io.{File, FileWriter, InputStreamReader}
+import sandwich.utils.{Settings, Utils, ChunkyWriter}
 import scala.concurrent.future
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -18,9 +18,10 @@ import scala.concurrent.ExecutionContext.Implicits.global
  * To change this template use File | Settings | File Templates.
  */
 package object getutilities {
+  private def buildURL(address: InetAddress, extension: String) = new URL("http://" + address.getHostAddress + ":" + Utils.portHash(address) + extension)
+
   private def get(address: InetAddress, extension: String): BufferedSource = {
-    val url = new URL("http://" + address.getHostAddress + ":" + Utils.portHash(address) + extension)
-    println(url)
+    val url = buildURL(address, extension)
     val connection = url.openConnection.asInstanceOf[HttpURLConnection]
     new BufferedSource(connection.getInputStream)
   }
@@ -61,11 +62,19 @@ package object getutilities {
   def getFile(address: InetAddress, path: Path) {
     // TODO: We should guarantee that failures clean themselves up.
     try {
-      val extension = "/file/" + path.toUri.toString
-      val url = new URL(address.getHostAddress + extension)
+      val url = new URI("http", null, address.getHostAddress, Utils.portHash(address), "/files/" + path, null, null).toURL
+      val localPath = Paths.get(Settings.getSettings.sandwichPath + File.separator + path)
       val connection = new InputStreamReader(url.openConnection.asInstanceOf[HttpURLConnection].getInputStream)
-      Files.createDirectories(path)
-      val fileWriter = new FileWriter(path.toFile)
+      println("Requesting: " + url)
+      val file = localPath.toFile
+      val parentDir = file.getParentFile
+      if (parentDir != null) {
+        parentDir.mkdirs()
+      }
+      file.createNewFile()
+      println("File exists: " + file.exists())
+      println("Downloading file: " + localPath)
+      val fileWriter = new FileWriter(file)
       val chunkyWriter = new ChunkyWriter(fileWriter)
       future {
         chunkyWriter.write(connection)
@@ -73,7 +82,7 @@ package object getutilities {
         connection.close()
       }
     } catch {
-      case _: Throwable =>
+      case error: Throwable => println(error)
     }
   }
 }
