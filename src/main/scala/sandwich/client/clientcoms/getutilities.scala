@@ -42,7 +42,7 @@ package object getutilities {
     val reader = get(address, "/peerlist")
     val result = Option(Peer.gson.fromJson(reader.mkString, classOf[Array[Peer]]).toSet[Peer])
     reader.close()
-    return result
+    result
   } catch {
     case error: Throwable => {
       println(error)
@@ -62,30 +62,22 @@ package object getutilities {
   def getFile(address: InetAddress, path: Path) {
     // TODO: We should guarantee that failures clean themselves up.
     try {
-      val url = new URI("http", null, address.getHostAddress, Utils.portHash(address), "/files/" + path, null, null).toURL
+      val url = new URI("http", null, address.getHostAddress, Utils.portHash(address), "/files/" + path, null, null).toURL // God damn Java...
       val localPath = Paths.get(Settings.getSettings.sandwichPath + File.separator + path)
       val connection = url.openConnection.asInstanceOf[HttpURLConnection]
-      connection.setConnectTimeout(10000)
-      connection.setReadTimeout(10000)
-      connection.connect()
       val connectionReader = connection.getInputStream
-      println("Requesting: " + url)
       val file = localPath.toFile
       val parentDir = file.getParentFile
       if (parentDir != null) {
         parentDir.mkdirs()
       }
       file.createNewFile()
-      println("File exists: " + file.exists())
-      println("Downloading file: " + localPath)
       val fileWriter = new FileOutputStream(file)
       val chunkyWriter = new ChunkyWriter(fileWriter)
-      println("Length of file: " + connection.getContentLengthLong)
       future {
         chunkyWriter.write(connectionReader, connection.getContentLengthLong)
         fileWriter.close()
         connectionReader.close()
-        println("Downloading complete")
       }
     } catch {
       case error: Throwable => println(error)

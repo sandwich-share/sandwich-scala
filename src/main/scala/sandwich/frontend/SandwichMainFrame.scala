@@ -23,7 +23,7 @@ class SandwichMainFrame(private val controller: FrontEndController, gc: Graphics
   maximize
 
   tabs.pages += new Page("Search", new SearchPane(controller))
-  tabs.pages += new Page("Settings", new SettingsPane)
+  tabs.pages += new Page("Settings", new SettingsPane(controller))
 
   override def closeOperation() {
     super.closeOperation()

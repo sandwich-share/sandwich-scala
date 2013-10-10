@@ -34,11 +34,11 @@ class FrontEndController {
     getFile(fileManifestAgent().filePeerMap(fileItem).IP, fileItem.FileName)
   }
 
-  def getSettings(): Settings = {
+  def settings: Settings = {
     return Settings.getSettings
   }
 
-  def setSettings(settings: Settings) {
+  def settings_=(settings: Settings) {
     Settings.writeSettings(settings)
   }
 

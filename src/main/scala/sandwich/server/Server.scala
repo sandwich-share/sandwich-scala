@@ -93,7 +93,7 @@ class Server(private val peerHandler: ActorRef, private val directoryWatcher: Ac
 
   private class FileHandler(root: Path) extends HttpHandler {
     def getFile(uri: URI): File = {
-      val path = uri.getPath.replaceFirst("/files/", "")
+      val path = uri.getPath.replaceFirst(File.separator +  "files" + File.separator, "")
       return root.resolve(path).toFile()
     }
 
