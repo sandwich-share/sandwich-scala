@@ -24,7 +24,13 @@ case class IPSet[Address <: InetAddress](ipSet: Set[IPRange[Address]]) {
   }
 }
 case class IPRange[Address <: InetAddress](min: IPAddress[Address], max: IPAddress[Address]) {
-  override def equals(any: Any): Boolean = any.isInstanceOf[IPRange] && any.asInstanceOf[IPRange].min == min && any.asInstanceOf[IPRange].max == max
+
+  implicit object IPAddressOrdering extends Ordering[IPAddress[Address]] {
+    override def compare(x: IPAddress[Address], y: IPAddress[Address]): Int = if (x < y) -1 else if (x == y) 0 else 1
+  }
+
+  override def equals(any: Any): Boolean = any.isInstanceOf[IPRange[Address]] &&
+    any.asInstanceOf[IPRange[Address]].min == min && any.asInstanceOf[IPRange[Address]].max == max
 
   def <(other: IPRange[Address]): Boolean = max < other.min
 
@@ -93,7 +99,11 @@ case class IPAddress[Address <: InetAddress](address: Address) {
     var index = -1
     do {
       index += 1
-      newAddress(index) += 1
+      newAddress(index) = (newAddress(index) + 1).toByte
     } while (newAddress(index) == 0)
+    return InetAddress.getByAddress(newAddress) match {
+      case ipv4: Inet4Address => IPRange.toIPAddress(ipv4).asInstanceOf[IPAddress[Address]]
+      case ipv6: Inet6Address => IPRange.toIPAddress(ipv6).asInstanceOf[IPAddress[Address]]
+    }
   }
 }
