@@ -2,13 +2,11 @@ package sandwich.client.filemanifesthandler
 
 import sandwich.client.peer.Peer
 import sandwich.client.fileindex.FileIndex
-import scala.collection.mutable.Map
 import sandwich.client.clientcoms.getutilities._
 import akka.actor._
 import scala.collection.{immutable, mutable}
-import akka.actor.ActorIdentity
-import scala.Some
-import akka.actor.Identify
+import scala.concurrent.Await
+import scala.concurrent.duration.Duration
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,10 +16,9 @@ import akka.actor.Identify
  * To change this template use File | Settings | File Templates.
  */
 class FileManifestHandler(private val peerHandler: ActorRef) extends Actor {
-  private var fileManifest = new FileManifest(immutable.Map[Peer, FileIndex]())
-  private var mostRecentPeerSet = Set[Peer]()
+  private var fileManifest = new FileManifest(Map[Peer, FileIndex]())
   private val subscribers = mutable.Set[ActorRef]()
-  private val manifestMap = Map[Peer, FileIndex]()
+  private var manifestMap = Map[Peer, FileIndex]()
 
   override def preStart() {
     peerHandler ! self
@@ -29,8 +26,7 @@ class FileManifestHandler(private val peerHandler: ActorRef) extends Actor {
 
   override def receive = {
     case peerSet: Set[Peer] => {
-      mostRecentPeerSet = peerSet
-      updateManifest()
+      updateManifest(peerSet)
       subscribers.foreach(_ ! fileManifest)
     }
     case actor: ActorRef => {
@@ -44,22 +40,12 @@ class FileManifestHandler(private val peerHandler: ActorRef) extends Actor {
     }
   }
 
-  def updateManifest() {
-    for(peer <- mostRecentPeerSet) {
-      if(manifestMap.contains(peer)) {
-        if(manifestMap(peer).IndexHash != peer.IndexHash) {
-          getFileIndex(peer.IP) match {
-            case Some(fileIndex) => manifestMap(peer) = fileIndex
-            case None =>
-          }
-        }
-      } else {
-        getFileIndex(peer.IP) match {
-          case Some(fileIndex) => manifestMap(peer) = fileIndex
-          case None =>
-        }
-      }
-    }
+  def updateManifest(peerSet: Set[Peer]) {
+    val (inMap, notInMap) = peerSet.partition(manifestMap.contains(_))
+    val (needsUpdate, notNeedUpdate) = inMap.partition(peer => manifestMap(peer).IndexHash != peer.IndexHash)
+    val newFileIndices = getFileIndices(notInMap ++ needsUpdate)
+    manifestMap = manifestMap.filter{case (peer, _) => notNeedUpdate.contains(peer)} ++
+      newFileIndices.flatMap(pair => Await.ready(pair, Duration.Inf).value.flatMap(_.toOption)).toMap[Peer, FileIndex]
     fileManifest = new FileManifest(manifestMap.toMap)
   }
 }

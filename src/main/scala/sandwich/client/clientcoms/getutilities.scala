@@ -7,7 +7,7 @@ import sandwich.client.fileindex.FileIndex
 import java.nio.file.{Paths, Files, Path}
 import java.io.{FileOutputStream, File, FileWriter, InputStreamReader}
 import sandwich.utils.{Settings, Utils, ChunkyWriter}
-import scala.concurrent.future
+import scala.concurrent.{Future, future}
 import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
@@ -50,14 +50,14 @@ package object getutilities {
     }
   }
 
-  def getFileIndex(address: InetAddress): Option[FileIndex] = try {
-    val reader = get(address, "/fileindex")
-    val result = Option(FileIndex.gson.fromJson(reader.mkString, classOf[FileIndex]))
+  def getFileIndex(peer: Peer): Future[(Peer, FileIndex)] = future {
+    val reader = get(peer.IP, "/fileindex")
+    val result = FileIndex.gson.fromJson(reader.mkString, classOf[FileIndex])
     reader.close()
-    return result
-  } catch {
-    case _: Throwable => None
+    (peer, result)
   }
+
+  def getFileIndices(peerSet: Set[Peer]): Set[Future[(Peer, FileIndex)]] = peerSet.map(peer => getFileIndex(peer))
 
   def getFile(address: InetAddress, path: Path) {
     // TODO: We should guarantee that failures clean themselves up.
