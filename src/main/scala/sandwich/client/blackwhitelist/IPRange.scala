@@ -67,7 +67,7 @@ object IPRange {
 
 case class IPAddress[Address <: InetAddress](address: Address) {
 
-  override def equals(any: Any) = address == any
+  override def equals(any: Any) = address.equals(any)
 
   def <(other: IPAddress[Address]): Boolean = {
     for ((left, right) <- address.getAddress.zip(other.address.getAddress)) {
