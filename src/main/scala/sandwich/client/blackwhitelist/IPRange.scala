@@ -67,13 +67,14 @@ object IPRange {
 
 case class IPAddress[Address <: InetAddress](address: Address) {
 
-  override def equals(any: Any) = address.equals(any)
+  override def equals(any: Any) = if (any.isInstanceOf[IPAddress[Address]]) address == any.asInstanceOf[IPAddress[Address]].address else false
 
   def <(other: IPAddress[Address]): Boolean = {
+    def unsignedLess(left: Byte, right: Byte) = left < right ^ left < 0 ^ right < 0
     for ((left, right) <- address.getAddress.zip(other.address.getAddress)) {
-      if (left < right) {
+      if (unsignedLess(left, right)) {
         return true
-      } else if (left > right) {
+      } else if (unsignedLess(right, left)) {
         return false
       }
     }
