@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="928ba8b7-07bd-4caf-80e8-2b4c596793e4" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/sandwich/client/clientcoms/getutilities.scala" afterPath="$PROJECT_DIR$/src/main/scala/sandwich/client/clientcoms/getutilities.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/sandwich/server/Server.scala" afterPath="$PROJECT_DIR$/src/main/scala/sandwich/server/Server.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Sandwich.iws" />
@@ -10,13 +10,13 @@
     <file path="/Peer.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1381346950225" ignored="false" />
     <file path="/FileIndex.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1381346987411" ignored="false" />
     <file path="/Utils.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1381349301057" ignored="false" />
-    <file path="/Server.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1381359199207" ignored="false" />
+    <file path="/Server.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1382225918140" ignored="false" />
     <file path="/SandwichMain.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379640401561" ignored="false" />
     <file path="/DirectoryWatcher.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1381259510353" ignored="false" />
     <file path="/PeerHandler.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1381349219504" ignored="false" />
     <file path="/GetUtilities.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379645825235" ignored="false" />
     <file path="/Settings.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1382161497451" ignored="false" />
-    <file path="/Dummy.txt" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1382220485001" ignored="false" />
+    <file path="/Dummy.txt" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1382223054594" ignored="false" />
     <file path="/FileManifestHandler.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1382166670741" ignored="false" />
     <file path="/FileManifest.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1381205353013" ignored="false" />
     <file path="/Controller.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1381221182808" ignored="false" />
@@ -108,21 +108,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Server.scala" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Server.scala" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/scala/sandwich/server/Server.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="6" selection-start="580" selection-end="580" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="getutilities.scala" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/sandwich/client/clientcoms/getutilities.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="47" selection-start="735" selection-end="735" vertical-scroll-proportion="0.472103">
+            <state line="93" column="6" selection-start="3379" selection-end="3379" vertical-scroll-proportion="0.57081544">
               <folding>
-                <element signature="e#36#94#0" expanded="true" />
+                <element signature="e#25#65#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -170,7 +161,6 @@
         <option value="$PROJECT_DIR$/src/main/scala/sandwich/client/peerhandler/PeerHandler.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/sandwich/utils/Utils.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/sandwich/utils/ChunkyWriter.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/sandwich/server/Server.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/sandwich/frontend/FrontEndController.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/sandwich/frontend/SandwichMainFrame.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/sandwich/frontend/SettingsPane.scala" />
@@ -181,6 +171,7 @@
         <option value="$PROJECT_DIR$/src/main/scala/sandwich/client/filemanifesthandler/FileManifestHandler.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/sandwich/utils/package.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/sandwich/client/clientcoms/getutilities.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/sandwich/server/Server.scala" />
       </list>
     </option>
   </component>
@@ -918,7 +909,11 @@
       <created>1382170650505</created>
       <updated>1382170650505</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="I finished cleaning up getutilities">
+      <created>1382223064857</created>
+      <updated>1382223064857</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -990,7 +985,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="I made the io in getutilities more functional.&#10;&#10;I created some convenient little wrappers that take code that throws exceptions, catches it, and wraps it in an option." />
+    <option name="LAST_COMMIT_MESSAGE" value="I finished cleaning up getutilities" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1026,6 +1021,7 @@
     <MESSAGE value="I fixed some errors with the whiteblacklist." />
     <MESSAGE value="I fixed the unsigned comparison issue in the comparison of IPAddresses" />
     <MESSAGE value="I made the io in getutilities more functional.&#10;&#10;I created some convenient little wrappers that take code that throws exceptions, catches it, and wraps it in an option." />
+    <MESSAGE value="I finished cleaning up getutilities" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1103,6 +1099,15 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/sandwich/client/clientcoms/getutilities.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="47" selection-start="735" selection-end="735" vertical-scroll-proportion="0.472103">
+          <folding>
+            <element signature="e#36#94#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/sandwich/utils/package.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state line="32" column="3" selection-start="803" selection-end="803" vertical-scroll-proportion="0.0">
@@ -1119,16 +1124,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/sandwich/server/Server.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="6" selection-start="580" selection-end="580" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/sandwich/client/clientcoms/getutilities.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="47" selection-start="735" selection-end="735" vertical-scroll-proportion="0.472103">
+        <state line="93" column="6" selection-start="3379" selection-end="3379" vertical-scroll-proportion="0.57081544">
           <folding>
-            <element signature="e#36#94#0" expanded="true" />
+            <element signature="e#25#65#0" expanded="true" />
           </folding>
         </state>
       </provider>

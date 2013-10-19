@@ -11,7 +11,7 @@ import scala.io.Source
 import sandwich.utils._
 import akka.actor._
 import akka.agent.Agent
-import akka.actor.Identify
+import sandwich.utils.using
 
 /**
  * Created with IntelliJ IDEA.
@@ -26,7 +26,7 @@ class Server(private val peerHandler: ActorRef, private val directoryWatcher: Ac
   private val peerSet = Agent[Set[Peer]](Set[Peer]())
   private val fileIndex = Agent[FileIndex](FileIndex(Set[FileItem]()))
 
-  override def preStart {
+  override def preStart() {
     peerHandler ! self
     directoryWatcher ! self
     println(Utils.localIp.toString + ":" + Utils.portHash(Utils.localIp))
@@ -37,7 +37,7 @@ class Server(private val peerHandler: ActorRef, private val directoryWatcher: Ac
     server.start()
   }
 
-  override def postStop {
+  override def postStop() {
     server.stop(15) // If the server is not done after 15 sec, too bad...
   }
 
@@ -49,67 +49,56 @@ class Server(private val peerHandler: ActorRef, private val directoryWatcher: Ac
   private def addPeer(exchange: HttpExchange) {
     peerHandler ! exchange.getRemoteAddress.getAddress
   }
-
-  private class PingHandler extends HttpHandler {
-    override def handle(exchange: HttpExchange) {
+  
+  abstract private class AbstractHandler extends HttpHandler {
+    def handleRequest(exchange: HttpExchange)
+    
+    override final def handle(exchange: HttpExchange) = using[Unit, HttpExchange](exchange) { exchange =>
       addPeer(exchange)
-      Source.fromInputStream(exchange.getRequestBody).mkString
-      exchange.getRequestBody.close
+      using(exchange.getRequestBody) { inputStream => Source.fromInputStream(inputStream).mkString }
       exchange.sendResponseHeaders(200, 0)
-      val responseBody = new OutputStreamWriter(exchange.getResponseBody)
-      responseBody.write("pong\n")
-      responseBody.close
-      exchange.close
+      handleRequest(exchange)
+    }
+  }
+  
+  abstract private class NonFileRequestHandler extends AbstractHandler {
+    def respond(outputStreamWriter: OutputStreamWriter)
+    
+    override final def handleRequest(exchange: HttpExchange) {
+      using(new OutputStreamWriter(exchange.getResponseBody)) { inputStream => respond(inputStream) }
     }
   }
 
-  private class PeerListHandler extends HttpHandler {
-    override def handle(exchange: HttpExchange) {
-      addPeer(exchange)
-      Source.fromInputStream(exchange.getRequestBody).mkString
-      exchange.getRequestBody.close
-      exchange.sendResponseHeaders(200, 0)
-      val responseBody = new OutputStreamWriter(exchange.getResponseBody)
+  private class PingHandler extends NonFileRequestHandler {
+    override def respond(outputStreamWriter: OutputStreamWriter) {
+      outputStreamWriter.write("pong\n")
+    }
+  }
+
+  private class PeerListHandler extends NonFileRequestHandler {
+    override def respond(outputStreamWriter: OutputStreamWriter) {
       val localPeer = Peer(Utils.getLocalIp, fileIndex().IndexHash, new Date)
-      responseBody.write(Peer.gson.toJson((peerSet() + localPeer).toArray[Peer]))
-      responseBody.close
-      exchange.close
+      outputStreamWriter.write(Peer.gson.toJson((peerSet() + localPeer).toArray[Peer]))
     }
   }
 
-  private class FileIndexHandler extends HttpHandler {
-    override def handle(exchange: HttpExchange) {
-      addPeer(exchange)
-      Source.fromInputStream(exchange.getRequestBody).mkString
-      exchange.getRequestBody.close
-      exchange.sendResponseHeaders(200, 0)
-      val responseBody = new OutputStreamWriter(exchange.getResponseBody)
-      val json: String = FileIndex.gson.toJson(fileIndex())
-      responseBody.write(json)
-      responseBody.close
-      exchange.close
+  private class FileIndexHandler extends NonFileRequestHandler {
+    override def respond(outputStreamWriter: OutputStreamWriter) {
+      outputStreamWriter.write(FileIndex.gson.toJson(fileIndex()))
     }
   }
 
-  private class FileHandler(root: Path) extends HttpHandler {
+  private class FileHandler(root: Path) extends AbstractHandler {
     def getFile(uri: URI): File = {
       val path = uri.getPath.replaceFirst(File.separator +  "files" + File.separator, "")
-      return root.resolve(path).toFile()
+      root.resolve(path).toFile
     }
 
-    override def handle(exchange: HttpExchange) {
-      addPeer(exchange)
-      Source.fromInputStream(exchange.getRequestBody).mkString
-      exchange.getRequestBody.close()
-      exchange.sendResponseHeaders(200, 0)
+    override def handleRequest(exchange: HttpExchange) {
       val file = getFile(exchange.getRequestURI)
-      val fileReader = new FileInputStream(file)
-      val responseBody = exchange.getResponseBody
-      val chunkyWriter = new ChunkyWriter(responseBody)
-      chunkyWriter.write(fileReader, file.length)
-      fileReader.close()
-      responseBody.close()
-      exchange.close()
+      using(new FileInputStream(file), exchange.getResponseBody) { (fileReader, responseBody) =>
+        new ChunkyWriter(responseBody).write(fileReader, file.length)
+      }
     }
   }
 }
