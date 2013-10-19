@@ -5,7 +5,7 @@ import sandwich.client.fileindex.FileIndex
 import sandwich.client.clientcoms.getutilities._
 import akka.actor._
 import scala.collection.{immutable, mutable}
-import scala.concurrent.Await
+import scala.concurrent.{Future, Await}
 import scala.concurrent.duration.Duration
 
 /**
@@ -40,12 +40,18 @@ class FileManifestHandler(private val peerHandler: ActorRef) extends Actor {
     }
   }
 
+  def transformPairToOption(peer: Peer, indexFuture: Future[Option[FileIndex]]): Option[(Peer, FileIndex)] = {
+    Await.ready(indexFuture, Duration.Inf).value.flatMap(_.toOption).flatten.flatMap(index => Some((peer, index)))
+  }
+
   def updateManifest(peerSet: Set[Peer]) {
     val (inMap, notInMap) = peerSet.partition(manifestMap.contains(_))
     val (needsUpdate, notNeedUpdate) = inMap.partition(peer => manifestMap(peer).IndexHash != peer.IndexHash)
     val newFileIndices = getFileIndices(notInMap ++ needsUpdate)
     manifestMap = manifestMap.filter{case (peer, _) => notNeedUpdate.contains(peer)} ++
-      newFileIndices.flatMap(pair => Await.ready(pair, Duration.Inf).value.flatMap(_.toOption)).toMap[Peer, FileIndex]
+      newFileIndices.flatMap {
+        case (peer, indexFuture) => transformPairToOption(peer, indexFuture)
+      }.toMap
     fileManifest = new FileManifest(manifestMap.toMap)
   }
 }

@@ -5,10 +5,12 @@ import sandwich.client.peer.Peer
 import scala.io.BufferedSource
 import sandwich.client.fileindex.FileIndex
 import java.nio.file.{Paths, Files, Path}
-import java.io.{FileOutputStream, File, FileWriter, InputStreamReader}
+import java.io._
 import sandwich.utils.{Settings, Utils, ChunkyWriter}
 import scala.concurrent.{Future, future}
 import scala.concurrent.ExecutionContext.Implicits.global
+import sandwich.utils._
+import scala.Some
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,67 +22,51 @@ import scala.concurrent.ExecutionContext.Implicits.global
 package object getutilities {
   private def buildURL(address: InetAddress, extension: String) = new URL("http://" + address.getHostAddress + ":" + Utils.portHash(address) + extension)
 
-  private def get(address: InetAddress, extension: String): BufferedSource = {
+  private def get(address: InetAddress, extension: String): Option[InputStream] = {
     val url = buildURL(address, extension)
     val connection = url.openConnection.asInstanceOf[HttpURLConnection]
-    new BufferedSource(connection.getInputStream)
-  }
-
-  def ping(address: InetAddress): Boolean = try {
-    val reader = get(address, "/ping")
-    val response = reader.mkString
-    reader.close()
-    response == "pong\n"
-  } catch {
-    case error: Throwable => {
-      println(error)
-      false
+    val reader = try {
+      connection.getInputStream
+    } catch {
+      case error: Throwable => {
+        println(error)
+        return None
+      }
     }
+    Some(reader)
   }
 
-  def getPeerList(address: InetAddress): Option[Set[Peer]] = try {
-    val reader = get(address, "/peerlist")
-    val result = Option(Peer.gson.fromJson(reader.mkString, classOf[Array[Peer]]).toSet[Peer])
-    reader.close()
-    result
-  } catch {
-    case error: Throwable => {
-      println(error)
-      None
-    }
+  def ping(address: InetAddress): Boolean = get(address, "/ping").flatMap(using(_) {
+    source => new BufferedSource(source).mkString
+  }) match {
+    case Some(response) => response == "pong\n"
+    case None => false
   }
 
-  def getFileIndex(peer: Peer): Future[(Peer, FileIndex)] = future {
-    val reader = get(peer.IP, "/fileindex")
-    val result = FileIndex.gson.fromJson(reader.mkString, classOf[FileIndex])
-    reader.close()
-    (peer, result)
+  def getPeerList(address: InetAddress): Option[Set[Peer]] = get(address, "/peerlist").flatMap(using(_) {
+    source => Peer.gson.fromJson(new BufferedSource(source).mkString, classOf[Array[Peer]]).toSet
+  })
+
+  def getFileIndex(peer: Peer): Future[Option[FileIndex]] = future {
+    get(peer.IP, "/fileindex").flatMap(using(_) {
+      source => FileIndex.gson.fromJson(new BufferedSource(source).mkString, classOf[FileIndex])
+    })
   }
 
-  def getFileIndices(peerSet: Set[Peer]): Set[Future[(Peer, FileIndex)]] = peerSet.map(peer => getFileIndex(peer))
+  def getFileIndices(peerSet: Set[Peer]): Set[(Peer, Future[Option[FileIndex]])] = peerSet.map(peer => (peer, getFileIndex(peer)))
 
   def getFile(address: InetAddress, path: Path) {
-    // TODO: We should guarantee that failures clean themselves up.
-    try {
-      val url = new URI("http", null, address.getHostAddress, Utils.portHash(address), "/files/" + path, null, null).toURL // God damn Java...
-      val localPath = Paths.get(Settings.getSettings.sandwichPath + File.separator + path)
+    val localPath = Paths.get(Settings.getSettings.sandwichPath + File.separator + path)
+    onSuccess(new URI("http", null, address.getHostAddress, Utils.portHash(address), "/files/" + path, null, null).toURL).foreach { url =>
       val connection = url.openConnection.asInstanceOf[HttpURLConnection]
-      val connectionReader = connection.getInputStream
       val file = localPath.toFile
-      val parentDir = file.getParentFile
-      if (parentDir != null) {
-        parentDir.mkdirs()
-      }
-      file.createNewFile()
-      val fileWriter = new FileOutputStream(file)
-      val chunkyWriter = new ChunkyWriter(fileWriter)
+      onSuccess(file.getParentFile).flatMap(notNull(_)).flatMap(file => onSuccess(() => file.mkdirs()))
+      onSuccess(() => file.createNewFile())
       future {
-        chunkyWriter.write(connectionReader, connection.getContentLengthLong)
-        fileWriter.close()
-        connectionReader.close()
+        using(connection.getInputStream, new FileOutputStream(file)) { (connectionReader: InputStream, fileWriter: OutputStream) =>
+          new ChunkyWriter(fileWriter).write(connectionReader, connection.getContentLengthLong)
+        }
       }
-    } catch {
-      case error: Throwable => println(error)
     }
   }
 }
