@@ -4,9 +4,8 @@ import java.net.{URI, HttpURLConnection, URL, InetAddress}
 import sandwich.client.peer.Peer
 import scala.io.BufferedSource
 import sandwich.client.fileindex.FileIndex
-import java.nio.file.{Paths, Files, Path}
+import java.nio.file.{Paths, Path}
 import java.io._
-import sandwich.utils.{Settings, Utils, ChunkyWriter}
 import scala.concurrent.{Future, future}
 import scala.concurrent.ExecutionContext.Implicits.global
 import sandwich.utils._
@@ -22,19 +21,8 @@ import scala.Some
 package object getutilities {
   private def buildURL(address: InetAddress, extension: String) = new URL("http://" + address.getHostAddress + ":" + Utils.portHash(address) + extension)
 
-  private def get(address: InetAddress, extension: String): Option[InputStream] = {
-    val url = buildURL(address, extension)
-    val connection = url.openConnection.asInstanceOf[HttpURLConnection]
-    val reader = try {
-      connection.getInputStream
-    } catch {
-      case error: Throwable => {
-        println(error)
-        return None
-      }
-    }
-    Some(reader)
-  }
+  private def get(address: InetAddress, extension: String): Option[InputStream] =
+    onSuccess(buildURL(address, extension).openConnection.asInstanceOf[HttpURLConnection].getInputStream)
 
   def ping(address: InetAddress): Boolean = get(address, "/ping").flatMap(using(_) {
     source => new BufferedSource(source).mkString
