@@ -11,6 +11,8 @@ libraryDependencies ++= Seq(
 
 libraryDependencies += "com.google.code.gson" % "gson" % "2.2.4"
 
+libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.5"
+
 libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-actor"   % "2.2.1",
   "com.typesafe.akka" %% "akka-slf4j"   % "2.2.1",

@@ -14,6 +14,7 @@ import sandwich.utils.SandwichInitializationException
 import akka.actor.ActorIdentity
 import scala.Some
 import akka.actor.Terminated
+import sandwich.utils.logging.Logging
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,7 +23,7 @@ import akka.actor.Terminated
  * Time: 12:34 AM
  * To change this template use File | Settings | File Templates.
  */
-class PeerHandler extends Actor {
+class PeerHandler extends Actor with Logging {
   import context._
   private val subscribers = mutable.Set[ActorRef]()
   private val peerSetAgent = Agent[Set[Peer]](Set[Peer]())
@@ -34,13 +35,16 @@ class PeerHandler extends Actor {
       case startingPeers: Set[Peer] => peerSetAgent.send(startingPeers)
     }
     peerIndexFuture onFailure {
-      case error => throw error
+      case error =>
+        log.error("failed to load cached peer index")
+        throw error
     }
     PeerHandlerCore.populatePeerMap(peerSetAgent())
     new Thread(PeerHandlerCore).start()
   }
 
   override def postStop() {
+    log.info("Shutting down")
     PeerHandlerCore.shutdown()
     PingHandler.shutdown()
     if(!peerSetAgent().isEmpty) {
@@ -68,12 +72,13 @@ class PeerHandler extends Actor {
     case ref: ActorRef => {
       context.watch(ref)
       subscribers += ref
-      println(ref)
+      log.info("Now watching: " + ref)
     }
 
     case Terminated(ref) => {
       context.unwatch(ref)
       subscribers -= ref
+      log.info("No longer watching: " + ref)
     }
   }
 
@@ -91,6 +96,7 @@ class PeerHandler extends Actor {
     }
 
     override def run() {
+      log.info("Starting PeerHandlerCore")
       while(running()) {
         if(!update()) {
           return
@@ -107,6 +113,7 @@ class PeerHandler extends Actor {
     private def update(): Boolean = {
       while(true) {
         if(peerMap.isEmpty) {
+          log.info("peerMap is empty, killing PeerHandlerCore")
           self ! EmptyPeerSetNotification
           return false
         } else {
@@ -162,9 +169,11 @@ class PeerHandler extends Actor {
     }
 
     override def run() {
+      log.info("Starting PingHandler")
       while (running()) {
         for (peer <- peerSetAgent()) {
           if(ping(peer.IP)) {
+            log.info("Found active peer, killing PingHandler")
             self ! PingRespondedNotification
             return
           }
