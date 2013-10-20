@@ -15,6 +15,14 @@ package object utils {
   implicit def toPath(stringPath: String): Path = Paths.get(stringPath)
   class SandwichInitializationException(val message: String) extends Exception
 
+  def using[T, C](any: C)(lastAction: C => Unit)(action: C => T): Option[T] = try {
+    Some(action(any))
+  } catch {
+    case _: Throwable => None
+  } finally {
+    lastAction(any)
+  }
+
   def using[T, C <: Closeable](any: C)(action: C => T): Option[T] = try {
     Some(action(any))
   } catch {
@@ -30,14 +38,6 @@ package object utils {
   } finally {
     any1.close()
     any2.close()
-  }
-
-  def using[T, C <: Closeable](any: C*)(action: Seq[C] => T): Option[T] = try {
-    Some(action(any))
-  } catch {
-    case _: Throwable => None
-  } finally {
-    any.foreach(_.close())
   }
 
   def onSuccess[T](action: () => T): Option[T] = try {

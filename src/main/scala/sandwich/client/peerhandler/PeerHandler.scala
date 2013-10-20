@@ -132,7 +132,7 @@ class PeerHandler extends Actor {
         unvisitedPeers().remove(unvisitedPeer)
         return unvisitedPeer
       } else if(peerMap.size > 1) {
-        return peerMap.values.reduce((left, right) => if(left.LastSeen.before(right.LastSeen)) {left} else {right}).IP
+        return peerMap.values.reduce((left, right) => if(left.LastSeen.before(right.LastSeen)) left else right).IP
       } else {
         return peerMap.head._1
       }

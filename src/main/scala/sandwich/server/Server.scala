@@ -53,7 +53,7 @@ class Server(private val peerHandler: ActorRef, private val directoryWatcher: Ac
   abstract private class AbstractHandler extends HttpHandler {
     def handleRequest(exchange: HttpExchange)
     
-    override final def handle(exchange: HttpExchange) = using[Unit, HttpExchange](exchange) { exchange =>
+    override final def handle(exchange: HttpExchange) = using(exchange)(_.close()) { exchange =>
       addPeer(exchange)
       using(exchange.getRequestBody) { inputStream => Source.fromInputStream(inputStream).mkString }
       exchange.sendResponseHeaders(200, 0)
