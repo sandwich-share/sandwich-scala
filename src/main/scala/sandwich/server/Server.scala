@@ -90,7 +90,7 @@ class Server(private val peerHandler: ActorRef, private val directoryWatcher: Ac
 
   private class FileHandler(root: Path) extends AbstractHandler {
     def getFile(uri: URI): File = {
-      val path = uri.getPath.replaceFirst(File.separator +  "files" + File.separator, "")
+      val path = Paths.get(uri.getPath.replaceFirst("/files/", ""))
       root.resolve(path).toFile
     }
 

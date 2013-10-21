@@ -57,7 +57,7 @@ class DirectoryWatcher(val rootDirectory: Path) extends Actor {
     private val fileWatcherMap = mutable.Map[WatchKey, Path]()
     private val fileSet = mutable.Set[String]()
     registerAll(rootDirectory)
-    updateFileIndex
+    updateFileIndex()
 
     private def register(dir: Path) {
       val key = dir.register(watcher, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY)
@@ -76,13 +76,21 @@ class DirectoryWatcher(val rootDirectory: Path) extends Actor {
       }
     }
 
-    private def updateFileIndex {
-      // TODO: This is kind of a mess, should probably fix it.
+    /**
+     * If you think this method looks jank, you are right: unfortunately Java provides no way to do this. Thanks Java...
+     * @param filePath the file path to normalize.
+     * @return a network valid file path.
+     */
+    private def networkNormalize(filePath: String): String = if (File.separatorChar == '\\') filePath.replace('\\', '/') else filePath
+
+    private def removeRootAndNormalize(fileName: String): String = networkNormalize(rootDirectory.relativize(Paths.get(fileName)).toString)
+
+    private def updateFileIndex() {
       // TODO: The checksum in fileItem is set to zero to match the canonical version; nevertheless, we should fix this.
-      self ! FileIndex(fileSet.map(fileName => FileItem(fileName.replaceFirst(Settings.getSettings.sandwichPath + File.separator, ""), new File(fileName).length, 0)).toSet)
+      self ! FileIndex(fileSet.map(fileName => FileItem(removeRootAndNormalize(fileName), new File(fileName).length, 0)).toSet)
     }
 
-    override def run {
+    override def run() {
       while(isRunning()) {
         try {
           val key = watcher.take
@@ -109,7 +117,7 @@ class DirectoryWatcher(val rootDirectory: Path) extends Actor {
         } catch {
           case e: Exception => println("Error")
         }
-        updateFileIndex
+        updateFileIndex()
       }
     }
   }

@@ -44,10 +44,7 @@ class FileManifestHandler(private val peerHandler: ActorRef) extends Actor with 
   }
 
   def transformPairToOption(peer: Peer, indexFuture: Future[Option[FileIndex]]): Option[(Peer, FileIndex)] = {
-    log.info("transforming pair")
-    val result = Await.ready(indexFuture, Duration.Inf).value.flatMap(_.toOption).flatten.flatMap(index => Some((peer, index)))
-    log.info("pair transformation complete")
-    result
+    Await.ready(indexFuture, Duration.Inf).value.flatMap(_.toOption).flatten.flatMap(index => Some((peer, index)))
   }
 
   def updateManifest(peerSet: Set[Peer]) {
