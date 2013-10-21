@@ -104,7 +104,7 @@ class PeerHandler extends Actor with Logging {
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.HOUR, -1)
         val currentTime = calendar.getTime()
-        deadPeers = deadPeers.filter{ case (_, date) => currentTime.after(date) }
+        deadPeers = deadPeers.filter{ case (_, date) => date after currentTime}
         Thread.sleep(1000)
       }
       running.send(true) // Reset for next time.
@@ -133,27 +133,17 @@ class PeerHandler extends Actor with Logging {
       return false // Never actually gets here.
     }
 
-    private def selectUpdatePeer(): InetAddress = {
-      if(!unvisitedPeers().isEmpty) {
-        val unvisitedPeer = unvisitedPeers().head
-        unvisitedPeers().remove(unvisitedPeer)
-        return unvisitedPeer
-      } else if(peerMap.size > 1) {
-        return peerMap.values.reduce((left, right) => if(left.LastSeen.before(right.LastSeen)) left else right).IP
-      } else {
-        return peerMap.head._1
-      }
-    }
+    private def selectUpdatePeer(): InetAddress = peerMap.values.reduce((left, right) => if(left.LastSeen.before(right.LastSeen)) left else right).IP
 
     private def update(newPeerSet: Set[Peer]) {
-      val (inPeerMap, notInPeerMap) = newPeerSet.partition(peer => peerMap.contains(peer.IP))
+      val (inPeerMap, notInPeerMap) = newPeerSet.filter(_.IP != Utils.localIp).partition(peer => peerMap.contains(peer.IP))
       val (inDeadPeers, notInDeadPeers) = notInPeerMap.partition(peer => deadPeers.contains(peer.IP))
       val notDead = inDeadPeers.filter(peer => peer.LastSeen.after(deadPeers(peer.IP)))
 
       deadPeers --= notDead.map(peer => peer.IP)
       peerMap ++= toPeerMap(notDead)
       peerMap ++= toPeerMap(notInDeadPeers)
-      peerMap ++= toPeerMap(inPeerMap.filter(peer => peer.LastSeen.after(peerMap(peer.IP).LastSeen)))
+      peerMap ++= toPeerMap(inPeerMap.filter(peer => peer.LastSeen after peerMap(peer.IP).LastSeen))
 
       self ! peerMap.values.toSet[Peer]
     }
