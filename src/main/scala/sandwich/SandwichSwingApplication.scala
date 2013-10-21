@@ -4,6 +4,7 @@ import scala.swing.{Frame, SimpleSwingApplication}
 import sandwich.controller.Controller
 import sandwich.frontend.{FrontEndController, SandwichMainFrame}
 import javax.swing.UIManager
+import org.apache.log4j.BasicConfigurator
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,6 +15,7 @@ import javax.swing.UIManager
  */
 object SandwichSwingApplication extends SimpleSwingApplication {
   val controller = new FrontEndController
+  BasicConfigurator.configure()
 
   try {
     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName)

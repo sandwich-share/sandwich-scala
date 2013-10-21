@@ -7,6 +7,7 @@ import akka.actor._
 import scala.collection.{immutable, mutable}
 import scala.concurrent.{Future, Await}
 import scala.concurrent.duration.Duration
+import sandwich.utils.logging.Logging
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,7 +16,7 @@ import scala.concurrent.duration.Duration
  * Time: 10:51 AM
  * To change this template use File | Settings | File Templates.
  */
-class FileManifestHandler(private val peerHandler: ActorRef) extends Actor {
+class FileManifestHandler(private val peerHandler: ActorRef) extends Actor with Logging {
   private var fileManifest = new FileManifest(Map[Peer, FileIndex]())
   private val subscribers = mutable.Set[ActorRef]()
   private var manifestMap = Map[Peer, FileIndex]()
@@ -26,22 +27,27 @@ class FileManifestHandler(private val peerHandler: ActorRef) extends Actor {
 
   override def receive = {
     case peerSet: Set[Peer] => {
+      log.info("Received newPeerSet")
       updateManifest(peerSet)
       subscribers.foreach(_ ! fileManifest)
     }
     case actor: ActorRef => {
       context.watch(actor)
       subscribers += actor
-      println(actor)
+      log.info("Now watching: " + actor)
     }
     case Terminated(actor) => {
       context.unwatch(actor)
       subscribers -= actor
+      log.info("No longer watching: " + actor)
     }
   }
 
   def transformPairToOption(peer: Peer, indexFuture: Future[Option[FileIndex]]): Option[(Peer, FileIndex)] = {
-    Await.ready(indexFuture, Duration.Inf).value.flatMap(_.toOption).flatten.flatMap(index => Some((peer, index)))
+    log.info("transforming pair")
+    val result = Await.ready(indexFuture, Duration.Inf).value.flatMap(_.toOption).flatten.flatMap(index => Some((peer, index)))
+    log.info("pair transformation complete")
+    result
   }
 
   def updateManifest(peerSet: Set[Peer]) {
@@ -53,6 +59,7 @@ class FileManifestHandler(private val peerHandler: ActorRef) extends Actor {
         case (peer, indexFuture) => transformPairToOption(peer, indexFuture)
       }.toMap
     fileManifest = new FileManifest(manifestMap.toMap)
+    log.info("FileManifest updated")
   }
 }
 

@@ -1,3 +1,7 @@
+import AssemblyKeys._
+
+assemblySettings
+
 name := "sandwhich"
 
 version := "0.9"
@@ -11,7 +15,10 @@ libraryDependencies ++= Seq(
 
 libraryDependencies += "com.google.code.gson" % "gson" % "2.2.4"
 
-libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.5"
+libraryDependencies ++= Seq(
+    "org.slf4j" % "slf4j-api" % "1.7.5",
+    "org.slf4j" % "slf4j-log4j12" % "1.7.5"
+)
 
 libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-actor"   % "2.2.1",

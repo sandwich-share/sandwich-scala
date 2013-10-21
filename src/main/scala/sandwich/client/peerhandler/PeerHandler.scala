@@ -36,7 +36,7 @@ class PeerHandler extends Actor with Logging {
     }
     peerIndexFuture onFailure {
       case error =>
-        log.error("failed to load cached peer index")
+        log.error("failed to load cached peer index", error)
         throw error
     }
     PeerHandlerCore.populatePeerMap(peerSetAgent())

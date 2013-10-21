@@ -10,7 +10,7 @@ import org.slf4j.{Logger, LoggerFactory}
  */
 object Logger {
   def apply(string: String): Logger = LoggerFactory.getLogger(string)
-  def apply(clazz: Class): Logger = LoggerFactory.getLogger(clazz)
+  def apply[T](clazz: Class[T]): Logger = LoggerFactory.getLogger(clazz)
 }
 
 trait Logging {
