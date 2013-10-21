@@ -6,7 +6,7 @@ import java.io._
 import java.nio.file.{Paths, Path}
 import sandwich.client.peer.Peer
 import java.util.Date
-import sandwich.client.fileindex.{FileItem, FileIndex}
+import sandwich.client.fileindex.{FileIndexContainer, FileItem, FileIndex}
 import scala.io.Source
 import sandwich.utils._
 import akka.actor._
@@ -24,7 +24,7 @@ class Server(private val peerHandler: ActorRef, private val directoryWatcher: Ac
   import context._
   private val server = HttpServer.create(new InetSocketAddress(Utils.portHash(Utils.localIp)), 100)
   private val peerSet = Agent[Set[Peer]](Set[Peer]())
-  private val fileIndex = Agent[FileIndex](FileIndex(Set[FileItem]()))
+  private val fileIndexContainer = new FileIndexContainer
 
   override def preStart() {
     peerHandler ! self
@@ -43,7 +43,7 @@ class Server(private val peerHandler: ActorRef, private val directoryWatcher: Ac
 
   override def receive = {
     case newPeerSet: Set[Peer] => peerSet.send(newPeerSet)
-    case newFileIndex: FileIndex => fileIndex.send(newFileIndex)
+    case newFileIndex: FileIndex => fileIndexContainer.update(newFileIndex)
   }
 
   private def addPeer(exchange: HttpExchange) {
@@ -77,14 +77,20 @@ class Server(private val peerHandler: ActorRef, private val directoryWatcher: Ac
 
   private class PeerListHandler extends NonFileRequestHandler {
     override def respond(outputStreamWriter: OutputStreamWriter) {
-      val localPeer = Peer(Utils.getLocalIp, fileIndex().IndexHash, new Date)
+      val localPeer = Peer(Utils.getLocalIp, fileIndexContainer.fileIndexHash, new Date)
       outputStreamWriter.write(Peer.gson.toJson((peerSet() + localPeer).toArray[Peer]))
     }
   }
 
-  private class FileIndexHandler extends NonFileRequestHandler {
-    override def respond(outputStreamWriter: OutputStreamWriter) {
-      outputStreamWriter.write(FileIndex.gson.toJson(fileIndex()))
+  private class FileIndexHandler extends AbstractHandler {
+    def handleRequest(exchange: HttpExchange) {
+      using(exchange.getResponseBody) { outputStream =>
+        if (exchange.getRequestHeaders.get("Accept-Encoding").contains("gzip")) {
+          outputStream.write(fileIndexContainer.fileIndexGZIP)
+        } else {
+          new OutputStreamWriter(outputStream).write(fileIndexContainer.fileIndexJson)
+        }
+      }
     }
   }
 
