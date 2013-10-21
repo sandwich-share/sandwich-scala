@@ -1,2 +1,5 @@
 % ignore the target directory
 target/
+config/
+.idea/
+.idea_modules/
