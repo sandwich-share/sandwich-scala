@@ -82,10 +82,17 @@ class Server(private val peerHandler: ActorRef, private val directoryWatcher: Ac
     }
   }
 
-  private class FileIndexHandler extends AbstractHandler {
-    def handleRequest(exchange: HttpExchange) {
+  private class FileIndexHandler extends HttpHandler {
+    def handle(exchange: HttpExchange): Unit = using(exchange)(_.close()) { exchange =>
+      addPeer(exchange)
+      using(exchange.getRequestBody) { inputStream => Source.fromInputStream(inputStream).mkString }
+      val acceptGZIP = exchange.getRequestHeaders.get("Accept-Encoding").contains("gzip")
+      if (acceptGZIP) {
+        exchange.getResponseHeaders.set("Content-Encoding", "gzip")
+      }
+      exchange.sendResponseHeaders(200, 0)
       using(exchange.getResponseBody) { outputStream =>
-        if (exchange.getRequestHeaders.get("Accept-Encoding").contains("gzip")) {
+        if (acceptGZIP) {
           outputStream.write(fileIndexContainer.fileIndexGZIP)
         } else {
           new OutputStreamWriter(outputStream).write(fileIndexContainer.fileIndexJson)

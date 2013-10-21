@@ -10,6 +10,7 @@ import scala.concurrent.{Future, future}
 import scala.concurrent.ExecutionContext.Implicits.global
 import sandwich.utils._
 import scala.Some
+import java.util.zip.GZIPInputStream
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,8 +22,11 @@ import scala.Some
 package object getutilities {
   private def buildURL(address: InetAddress, extension: String) = new URL("http://" + address.getHostAddress + ":" + Utils.portHash(address) + extension)
 
-  private def get(address: InetAddress, extension: String): Option[InputStream] =
-    onSuccess(buildURL(address, extension).openConnection.asInstanceOf[HttpURLConnection].getInputStream)
+  private def get(address: InetAddress, extension: String, requestProperties: Map[String, String] = Map()): Option[InputStream] = {
+    val connection = onSuccess(() => buildURL(address, extension).openConnection.asInstanceOf[HttpURLConnection])
+    requestProperties.foreach { case (key, value) => connection.flatMap(connection => onSuccess(() => connection.setRequestProperty(key, value))) }
+    connection.flatMap(connection => onSuccess(connection.getInputStream))
+  }
 
   def ping(address: InetAddress): Boolean = get(address, "/ping").flatMap(using(_) {
     source => new BufferedSource(source).mkString
@@ -36,9 +40,16 @@ package object getutilities {
   })
 
   def getFileIndex(peer: Peer): Future[Option[FileIndex]] = future {
-    get(peer.IP, "/fileindex").flatMap(using(_) {
-      source => FileIndex.gson.fromJson(new BufferedSource(source).mkString, classOf[FileIndex])
-    })
+    val connection = onSuccess(() => buildURL(peer.IP, "/fileindex").openConnection().asInstanceOf[HttpURLConnection])
+    connection.flatMap(connection => onSuccess(() => connection.setRequestProperty("Accept-Encoding", "gzip")))
+    connection.flatMap(connection => onSuccess {() =>
+      using(connection.getInputStream) { connectionStream =>
+        val inputStream = if (connection.getContentEncoding == "gzip") {
+          new GZIPInputStream(connectionStream)
+        } else connectionStream
+        FileIndex.gson.fromJson(new BufferedSource(inputStream).mkString, classOf[FileIndex])
+      }
+    }).flatten
   }
 
   def getFileIndices(peerSet: Set[Peer]): Set[(Peer, Future[Option[FileIndex]])] = peerSet.map(peer => (peer, getFileIndex(peer)))

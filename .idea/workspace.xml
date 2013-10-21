@@ -7,8 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="928ba8b7-07bd-4caf-80e8-2b4c596793e4" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/scala/sandwich/client/fileindex/FileIndexContainer.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/sandwich/server/Server.scala" afterPath="$PROJECT_DIR$/src/main/scala/sandwich/server/Server.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/sandwich/client/clientcoms/getutilities.scala" afterPath="$PROJECT_DIR$/src/main/scala/sandwich/client/clientcoms/getutilities.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Sandwich.iws" />
@@ -16,18 +16,18 @@
     <file path="/Peer.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1381346950225" ignored="false" />
     <file path="/FileIndex.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1381346987411" ignored="false" />
     <file path="/Utils.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1381349301057" ignored="false" />
-    <file path="/Server.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1382347750214" ignored="false" />
+    <file path="/Server.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1382349680459" ignored="false" />
     <file path="/SandwichMain.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379640401561" ignored="false" />
     <file path="/DirectoryWatcher.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1382336371997" ignored="false" />
     <file path="/PeerHandler.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1382324500559" ignored="false" />
     <file path="/GetUtilities.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379645825235" ignored="false" />
     <file path="/Settings.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1382161497451" ignored="false" />
-    <file path="/Dummy.txt" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1382336430012" ignored="false" />
+    <file path="/Dummy.txt" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1382347936272" ignored="false" />
     <file path="/FileManifestHandler.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1382323920172" ignored="false" />
     <file path="/FileManifest.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1381205353013" ignored="false" />
     <file path="/Controller.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1381221182808" ignored="false" />
     <file path="/fragment.java" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379985781478" ignored="false" />
-    <file path="/getutilities.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1382238537017" ignored="false" />
+    <file path="/getutilities.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1382350708568" ignored="false" />
     <file path="/SandwichSwingApplication.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1382318884844" ignored="false" />
     <file path="/SandwichMainFrame.scala" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1381360807002" ignored="false" />
     <file path="/Scala Console" changelist="928ba8b7-07bd-4caf-80e8-2b4c596793e4" time="1379708957903" ignored="false" />
@@ -119,8 +119,19 @@
       <file leaf-file-name="getutilities.scala" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/scala/sandwich/client/clientcoms/getutilities.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="47" selection-start="1357" selection-end="1357" vertical-scroll-proportion="0.53896105">
+            <state line="52" column="14" selection-start="2369" selection-end="2369" vertical-scroll-proportion="0.6103896">
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Server.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/sandwich/server/Server.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="94" column="25" selection-start="3573" selection-end="3573" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#25#65#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -151,7 +162,6 @@
         <option value="$PROJECT_DIR$/src/main/scala/sandwich/client/blackwhitelist/IPRange.scala" />
         <option value="$PROJECT_DIR$/config/PeerIndexCache.json" />
         <option value="$PROJECT_DIR$/src/main/scala/sandwich/utils/Settings.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/sandwich/client/clientcoms/getutilities.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/sandwich/utils/package.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/sandwich/utils/logging/Logging.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/sandwich/SandwichSwingApplication.scala" />
@@ -160,6 +170,7 @@
         <option value="$PROJECT_DIR$/src/main/scala/sandwich/client/filewatcher/DirectoryWatcher.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/sandwich/client/fileindex/FileIndexContainer.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/sandwich/server/Server.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/sandwich/client/clientcoms/getutilities.scala" />
       </list>
     </option>
   </component>
@@ -289,6 +300,10 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="server" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Server.scala" />
+              <option name="myItemType" value="org.jetbrains.plugins.scala.components.ScalaDefsProjectViewProvider$ScalaFileTreeNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -909,7 +924,11 @@
       <created>1382336436810</created>
       <updated>1382336436810</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="The server now serves GZIP compressed file indices upon request.">
+      <created>1382347939550</created>
+      <updated>1382347939550</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -981,7 +1000,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="I fixed some broken Windows shit." />
+    <option name="LAST_COMMIT_MESSAGE" value="The server now serves GZIP compressed file indices upon request." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -995,7 +1014,6 @@
     <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="I implemented the controller" />
     <MESSAGE value="I fixed tons of stuff." />
     <MESSAGE value="I fixed a ton more stuff." />
     <MESSAGE value="I added port hashing and a better lookup for the local ip" />
@@ -1020,6 +1038,7 @@
     <MESSAGE value="I started to add logging to sandwich using slf4j.&#10;&#10;I wrote a couple simple wrappers around slf4j and added them to utils" />
     <MESSAGE value="I added a bunch of logging code" />
     <MESSAGE value="I fixed some broken Windows shit." />
+    <MESSAGE value="The server now serves GZIP compressed file indices upon request." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1118,13 +1137,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/sandwich/server/Server.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="90" column="20" selection-start="3336" selection-end="3336" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/sandwich/client/fileindex/FileIndex.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state line="24" column="11" selection-start="607" selection-end="607" vertical-scroll-proportion="0.5077951">
@@ -1132,9 +1144,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/sandwich/server/Server.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="94" column="25" selection-start="3573" selection-end="3573" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#25#65#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/sandwich/client/clientcoms/getutilities.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="47" selection-start="1357" selection-end="1357" vertical-scroll-proportion="0.53896105">
+        <state line="52" column="14" selection-start="2369" selection-end="2369" vertical-scroll-proportion="0.6103896">
           <folding />
         </state>
       </provider>
