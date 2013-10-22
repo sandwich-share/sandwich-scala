@@ -19,11 +19,13 @@ class FileIndexContainer {
   private val fileIndexGZIPAgent = Agent[Array[Byte]](Array())
 
   def update(fileIndex: FileIndex) {
+    println("Received fileIndex: " + fileIndex.List.head)
     fileIndexHashAgent.send(fileIndex.IndexHash)
-    fileIndexJsonAgent.send(Peer.gson.toJson(fileIndex))
+    fileIndexJsonAgent.send(FileIndex.gson.toJson(fileIndex))
     val buffer = new ByteArrayOutputStream()
     val gzipStream = new OutputStreamWriter(new GZIPOutputStream(buffer))
     gzipStream.write(fileIndexJsonAgent())
+    gzipStream.flush()
     fileIndexGZIPAgent.send(buffer.toByteArray)
   }
 

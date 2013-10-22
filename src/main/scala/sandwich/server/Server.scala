@@ -12,6 +12,8 @@ import sandwich.utils._
 import akka.actor._
 import akka.agent.Agent
 import sandwich.utils.using
+import sandwich.utils.logging.Logging
+import scala.collection.JavaConversions.asScalaIterator
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,7 +22,7 @@ import sandwich.utils.using
  * Time: 4:30 PM
  * To change this template use File | Settings | File Templates.
    */
-class Server(private val peerHandler: ActorRef, private val directoryWatcher: ActorRef) extends Actor {
+class Server(private val peerHandler: ActorRef, private val directoryWatcher: ActorRef) extends Actor with Logging {
   import context._
   private val server = HttpServer.create(new InetSocketAddress(Utils.portHash(Utils.localIp)), 100)
   private val peerSet = Agent[Set[Peer]](Set[Peer]())
@@ -84,17 +86,20 @@ class Server(private val peerHandler: ActorRef, private val directoryWatcher: Ac
 
   private class FileIndexHandler extends HttpHandler {
     def handle(exchange: HttpExchange): Unit = using(exchange)(_.close()) { exchange =>
+      log.debug("Handling fileIndex request")
       addPeer(exchange)
       using(exchange.getRequestBody) { inputStream => Source.fromInputStream(inputStream).mkString }
-      val acceptGZIP = exchange.getRequestHeaders.get("Accept-Encoding").contains("gzip")
+      val acceptGZIP = asScalaIterator(exchange.getRequestHeaders.get("Accept-Encoding").iterator()).map(_.split(',').contains("gzip")).reduce(_ || _)
       if (acceptGZIP) {
         exchange.getResponseHeaders.set("Content-Encoding", "gzip")
       }
       exchange.sendResponseHeaders(200, 0)
       using(exchange.getResponseBody) { outputStream =>
         if (acceptGZIP) {
+          log.debug("Writing gzip in response: " + fileIndexContainer.fileIndexGZIP.map(_.toString))
           outputStream.write(fileIndexContainer.fileIndexGZIP)
         } else {
+          log.debug("Writing json in response")
           new OutputStreamWriter(outputStream).write(fileIndexContainer.fileIndexJson)
         }
       }
