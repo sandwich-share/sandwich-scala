@@ -67,4 +67,6 @@ package object utils {
   }
 
   def notNull[T](value: T): Option[T] = if (value != null) Some(value) else None
+
+  def actorPath(elements: String*): String = elements.fold("/user")(_ + "/" + _)
 }

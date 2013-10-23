@@ -181,5 +181,6 @@ class PeerHandler extends Actor with Logging {
 object PeerHandler {
   abstract class Request extends controller.Request
   case object PeerSetRequest extends PeerHandler.Request
+  val name = "peerhandler"
   def props = Props[PeerHandler]
 }

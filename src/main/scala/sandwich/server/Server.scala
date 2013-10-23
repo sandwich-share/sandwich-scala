@@ -6,14 +6,14 @@ import java.io._
 import java.nio.file.{Paths, Path}
 import sandwich.client.peer.Peer
 import java.util.Date
-import sandwich.client.fileindex.{FileIndexContainer, FileItem, FileIndex}
+import sandwich.client.fileindex.{FileIndexContainer, FileIndex}
 import scala.io.Source
 import sandwich.utils._
 import akka.actor._
 import akka.agent.Agent
 import sandwich.utils.using
-import sandwich.utils.logging.Logging
 import scala.collection.JavaConversions.asScalaIterator
+import sandwich.utils.actors.{SubscribingDirectoryWatcher, SubscribingPeerHandler, ActorBase}
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,15 +22,14 @@ import scala.collection.JavaConversions.asScalaIterator
  * Time: 4:30 PM
  * To change this template use File | Settings | File Templates.
    */
-class Server(private val peerHandler: ActorRef, private val directoryWatcher: ActorRef) extends Actor with Logging {
+class Server(private val peerHandler: ActorRef, private val directoryWatcher: ActorRef) extends ActorBase with SubscribingPeerHandler with SubscribingDirectoryWatcher {
   import context._
   private val server = HttpServer.create(new InetSocketAddress(Utils.portHash(Utils.localIp)), 100)
   private val peerSet = Agent[Set[Peer]](Set[Peer]())
   private val fileIndexContainer = new FileIndexContainer
 
   override def preStart() {
-    peerHandler ! self
-    directoryWatcher ! self
+    super.preStart()
     println(Utils.localIp.toString + ":" + Utils.portHash(Utils.localIp))
     server.createContext("/ping", new PingHandler)
     server.createContext("/peerlist", new PeerListHandler)
@@ -43,9 +42,11 @@ class Server(private val peerHandler: ActorRef, private val directoryWatcher: Ac
     server.stop(15) // If the server is not done after 15 sec, too bad...
   }
 
-  override def receive = {
-    case newPeerSet: Set[Peer] => peerSet.send(newPeerSet)
-    case newFileIndex: FileIndex => fileIndexContainer.update(newFileIndex)
+  override def respond(value: Set[Peer]): Unit = peerSet.send(value)
+
+  override def respond(value: FileIndex): Unit = {
+    log.debug("Receive fileindex: " + value.List.head)
+    fileIndexContainer.update(value)
   }
 
   private def addPeer(exchange: HttpExchange) {
@@ -120,5 +121,6 @@ class Server(private val peerHandler: ActorRef, private val directoryWatcher: Ac
 }
 
 object Server {
+  val name = "server"
   def props(peerHandler: ActorRef, directoryWatcher: ActorRef) = Props(classOf[Server], peerHandler, directoryWatcher)
 }

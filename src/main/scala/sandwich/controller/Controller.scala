@@ -21,12 +21,12 @@ import scala.concurrent.ExecutionContext.Implicits.global
  */
 class Controller extends Actor {
   private val settings = Settings.getSettings
-  val peerHandler = context.actorOf(PeerHandler.props, "peerhandler")
-  val directoryWatcher = context.actorOf(DirectoryWatcher.props(Paths.get(settings.sandwichPath)), "directorywatcher")
-  val fileManifestHandler = context.actorOf(FileManifestHandler.props(peerHandler), "filemanifesthandler")
-  val server = context.actorOf(Server.props(peerHandler, directoryWatcher), "server")
+  val peerHandler = context.actorOf(PeerHandler.props, PeerHandler.name)
+  val directoryWatcher = context.actorOf(DirectoryWatcher.props(Paths.get(settings.sandwichPath)), DirectoryWatcher.name)
+  val fileManifestHandler = context.actorOf(FileManifestHandler.props(peerHandler), FileManifestHandler.name)
+  val server = context.actorOf(Server.props(peerHandler, directoryWatcher), Server.name)
 
-  override def postStop {
+  override def postStop() {
     for(peerSet <- peerHandler ? PeerHandler.PeerSetRequest) {
       Utils.cachePeerIndex(peerSet.asInstanceOf[Set[Peer]])
     }
@@ -40,8 +40,7 @@ class Controller extends Actor {
 }
 
 object Controller {
-  abstract class Request extends controller.Request
-  case object ShutdownRequest extends Controller.Request
+  val name = "controller"
 
   def props: Props = Props[Controller]
 }

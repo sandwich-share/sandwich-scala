@@ -8,7 +8,7 @@ import sandwich.utils.logging.Logging
  * An actor that produces a special value type T and broadcasts it to subscribers.
  * @tparam T the type to publish.
  */
-abstract class Publisher[T] extends Actor with Logging {
+abstract class Publisher[T] extends ActorBase {
   private val subscribers = mutable.Set[ActorRef]()
 
   /**

@@ -61,5 +61,6 @@ class FileManifestHandler(private val peerHandler: ActorRef) extends Actor with 
 }
 
 object FileManifestHandler {
+  val name = "filemanifesthandler"
   def props(peerHandler: ActorRef) = Props(classOf[FileManifestHandler], peerHandler)
 }

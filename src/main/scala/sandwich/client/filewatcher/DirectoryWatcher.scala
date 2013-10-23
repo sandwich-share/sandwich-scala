@@ -15,6 +15,7 @@ import akka.actor._
 import akka.agent.Agent
 import scala.collection.convert.Wrappers.JListWrapper
 import akka.actor.ActorIdentity
+import sandwich.utils.logging.Logging
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,7 +24,7 @@ import akka.actor.ActorIdentity
  * Time: 4:28 PM
  * To change this template use File | Settings | File Templates.
  */
-class DirectoryWatcher(val rootDirectory: Path) extends Actor {
+class DirectoryWatcher(val rootDirectory: Path) extends Actor with Logging {
   import context._
   private var fileIndex = FileIndex(Set[FileItem]())
   private val isRunning = Agent[Boolean](true)
@@ -47,9 +48,13 @@ class DirectoryWatcher(val rootDirectory: Path) extends Actor {
     case actor: ActorRef => {
       context.watch(actor)
       subscribers += actor
-      println(actor)
+      log.info("Now watching: " + actor)
     }
-    case Terminated(actorRef) => subscribers -= actorRef
+    case Terminated(actorRef) => {
+      context.unwatch(actorRef)
+      subscribers -= actorRef
+      log.info("No longer watching: " + actorRef)
+    }
   }
 
   private object DirectoryWatcherCore extends Thread {
@@ -125,10 +130,8 @@ class DirectoryWatcher(val rootDirectory: Path) extends Actor {
 
 object DirectoryWatcher {
   abstract class Request extends controller.Request
-
   object FileIndexRequest extends DirectoryWatcher.Request
-
   object FileHashRequest extends DirectoryWatcher.Request
-
+  val name =  "directorywatcher"
   def props(rootDirectory: Path) = Props(classOf[DirectoryWatcher], rootDirectory)
 }
